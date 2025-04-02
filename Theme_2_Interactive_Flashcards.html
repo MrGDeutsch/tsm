@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>🌍 Theme 2: Interactive Flashcards</title>
+<style>
+  body {
+    font-family: "Helvetica", "Arial", sans-serif;
+    background-color: #f0f4f8;
+    color: #1e1e1e;
+    line-height: 1.4;
+    font-size: 11pt;
+    margin: 20px auto;
+    max-width: 800px;
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 22pt;
+    margin-bottom: 20px;
+  }
+  .flashcard {
+    background-color: #ffffff;
+    border-left: 5px solid #00b894;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .topic {
+    font-weight: bold;
+    font-size: 10pt;
+    color: #636e72;
+    margin-bottom: 4px;
+  }
+  .question-de {
+    color: #0984e3;
+    font-style: italic;
+    margin-bottom: 3px;
+  }
+  .question-en {
+    font-weight: bold;
+    color: #2d3436;
+    margin-bottom: 6px;
+  }
+  .answer {
+    display: none;
+    margin-top: 6px;
+    color: #2f3542;
+  }
+  .toggle {
+    background-color: #00cec9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 10pt;
+    margin-top: 5px;
+  }
+  .qr-section {
+    text-align: center;
+    margin: 30px 0 10px;
+  }
+</style>
+<script>
+  function toggleAnswer(id) {
+    var answer = document.getElementById(id);
+    answer.style.display = answer.style.display === "none" ? "block" : "none";
+  }
+</script>
+</head>
+<body>
+<h1>📘 Theme 2 Interactive Flashcards</h1>
+
+    <div class="flashcard">
+        <div class="topic">🏡 Home, town, neighbourhood and region</div>
+        <div class="question-de">Q1 (DE): Wo wohnst du und wie findest du deine Stadt?</div>
+        <div class="question-en">Q1 (EN): Where do you live and what do you think of your town?</div>
+        <button class="toggle" onclick="toggleAnswer('a1')">Show/Hide Answer</button>
+        <div class="answer" id="a1">👉 Ich wohne seit fünf Jahren in Birmingham, das in Mittelengland liegt. Ich finde meine Stadt ziemlich interessant, weil es viel für Jugendliche gibt. Man kann nicht nur ins Kino oder einkaufen gehen, sondern auch historische Gebäude besichtigen. Obwohl es manchmal zu hektisch und laut ist, mag ich das Großstadtleben, da es nie langweilig wird.</div>
+    </div>
+    
+<div class="qr-section">
+    <p>📲 <strong>Scan this QR code to practise these flashcards on Quizlet:</strong></p>
+    <img src="quizlet_qr_code.png" alt="Quizlet QR Code" width="120" height="120">
+</div>
+</body>
+</html>
