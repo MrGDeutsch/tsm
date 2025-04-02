@@ -3,50 +3,51 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>🌍 Theme 2: Interactive Flashcards</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theme 2 Flashcards</title>
 <style>
   body {
     font-family: "Helvetica", "Arial", sans-serif;
     background-color: #f0f4f8;
     color: #1e1e1e;
-    line-height: 1.4;
-    font-size: 11pt;
-    margin: 20px auto;
-    max-width: 800px;
+    margin: 0;
+    padding: 16px;
+    line-height: 1.5;
+    font-size: 1rem;
   }
   h1 {
     text-align: center;
+    font-size: 1.8rem;
     color: #2c3e50;
-    font-size: 22pt;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
   }
   .flashcard {
-    background-color: #ffffff;
+    background: #ffffff;
     border-left: 5px solid #00b894;
-    padding: 14px 18px;
-    margin-bottom: 14px;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   }
   .topic {
-    font-weight: bold;
-    font-size: 10pt;
+    font-weight: 600;
+    font-size: 0.9rem;
     color: #636e72;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
   .question-de {
-    color: #0984e3;
     font-style: italic;
-    margin-bottom: 3px;
+    color: #0984e3;
+    margin-bottom: 4px;
   }
   .question-en {
     font-weight: bold;
     color: #2d3436;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   .answer {
     display: none;
-    margin-top: 6px;
+    margin-top: 10px;
     color: #2f3542;
   }
   .toggle {
@@ -54,20 +55,15 @@
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 6px 12px;
+    padding: 8px 14px;
     cursor: pointer;
-    font-size: 10pt;
-    margin-top: 5px;
-  }
-  .qr-section {
-    text-align: center;
-    margin: 30px 0 10px;
+    font-size: 0.9rem;
   }
 </style>
 <script>
   function toggleAnswer(id) {
     var answer = document.getElementById(id);
-    answer.style.display = answer.style.display === "none" ? "block" : "none";
+    answer.style.display = answer.style.display === "block" ? "none" : "block";
   }
 </script>
 </head>
@@ -78,13 +74,111 @@
         <div class="topic">🏡 Home, town, neighbourhood and region</div>
         <div class="question-de">Q1 (DE): Wo wohnst du und wie findest du deine Stadt?</div>
         <div class="question-en">Q1 (EN): Where do you live and what do you think of your town?</div>
-        <button class="toggle" onclick="toggleAnswer('a1')">Show/Hide Answer</button>
-        <div class="answer" id="a1">👉 Ich wohne seit fünf Jahren in Birmingham, das in Mittelengland liegt. Ich finde meine Stadt ziemlich interessant, weil es viel für Jugendliche gibt. Man kann nicht nur ins Kino oder einkaufen gehen, sondern auch historische Gebäude besichtigen. Obwohl es manchmal zu hektisch und laut ist, mag ich das Großstadtleben, da es nie langweilig wird.</div>
+        <button class="toggle" onclick="toggleAnswer('a0')">Show/Hide Answer</button>
+        <div class="answer" id="a0">👉 Ich wohne seit fünf Jahren in Birmingham, das in Mittelengland liegt. Ich finde meine Stadt ziemlich interessant, weil es viel für Jugendliche gibt. Man kann nicht nur ins Kino oder einkaufen gehen, sondern auch historische Gebäude besichtigen. Obwohl es manchmal zu hektisch und laut ist, mag ich das Großstadtleben, da es nie langweilig wird.</div>
     </div>
     
-<div class="qr-section">
-    <p>📲 <strong>Scan this QR code to practise these flashcards on Quizlet:</strong></p>
-    <img src="quizlet_qr_code.png" alt="Quizlet QR Code" width="120" height="120">
-</div>
-</body>
-</html>
+    <div class="flashcard">
+        <div class="topic">🏡 Home, town, neighbourhood and region</div>
+        <div class="question-de">Q2 (DE): Beschreib’ dein Haus!</div>
+        <div class="question-en">Q2 (EN): Describe your house!</div>
+        <button class="toggle" onclick="toggleAnswer('a1')">Show/Hide Answer</button>
+        <div class="answer" id="a1">👉 Ich wohne in einem modernen, gemütlichen Bungalow, der sich in einem ruhigen Vorort befindet. Obwohl mein Haus klein ist, gefällt es mir besonders, weil es sehr komfortabel und umweltfreundlich ist. Es gibt zwei Schlafzimmer, ein Badezimmer und einen Garten, in dem ich oft entspanne. Das Beste an meinem Haus ist das Wohnzimmer, denn es ist äußerst geräumig und hell.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🏡 Home, town, neighbourhood and region</div>
+        <div class="question-de">Q3 (DE): Was kann man in deiner Stadt machen?</div>
+        <div class="question-en">Q3 (EN): What can you do in your town?</div>
+        <button class="toggle" onclick="toggleAnswer('a2')">Show/Hide Answer</button>
+        <div class="answer" id="a2">👉 In meiner Stadt gibt es zahlreiche Aktivitäten, besonders für junge Leute. Zum Beispiel kann man in das riesige Einkaufszentrum gehen oder spannende Filme im Kino ansehen. Außerdem gibt es viele Sportmöglichkeiten, wie Tennis- oder Fußballplätze. Persönlich treffe ich mich jedes Wochenende mit meinen Freunden, um etwas Interessantes zu machen, weil ich denke, dass es wichtig ist, aktiv und gesellig zu bleiben.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🗺️ Travel and tourism</div>
+        <div class="question-de">Q4 (DE): Was machst du normalerweise in den Ferien?</div>
+        <div class="question-en">Q4 (EN): What do you normally do in the holidays?</div>
+        <button class="toggle" onclick="toggleAnswer('a3')">Show/Hide Answer</button>
+        <div class="answer" id="a3">👉 Normalerweise verbringe ich meine Ferien aktiv, da ich nicht gern faulenze. Ich spiele oft Tennis im Park, gehe mit meinen Freunden ins Kino oder fahre mit dem Fahrrad auf dem Land, was immer entspannend ist. Meiner Meinung nach ist es wichtig, die Ferien gut zu nutzen, um fit und gesund zu bleiben.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🗺️ Travel and tourism</div>
+        <div class="question-de">Q5 (DE): Was sind deine Pläne für die Sommerferien?</div>
+        <div class="question-en">Q5 (EN): What are your plans for the summer holidays?</div>
+        <button class="toggle" onclick="toggleAnswer('a4')">Show/Hide Answer</button>
+        <div class="answer" id="a4">👉 In den kommenden Sommerferien werde ich mit meiner Familie nach Portugal reisen. Wir werden in einem luxuriösen Hotel am Strand übernachten, wo wir jeden Tag schwimmen und uns sonnen können. Außerdem plane ich, lokale Spezialitäten zu probieren und vielleicht auch eine neue Wassersportart zu lernen. Das wird sicher unvergesslich sein, weil ich gerne neue Kulturen erlebe.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🗺️ Travel and tourism</div>
+        <div class="question-de">Q6 (DE): Was hast du in den Osterferien gemacht?</div>
+        <div class="question-en">Q6 (EN): What did you do in the Easter holidays?</div>
+        <button class="toggle" onclick="toggleAnswer('a5')">Show/Hide Answer</button>
+        <div class="answer" id="a5">👉 In den letzten Osterferien bin ich viel Rad gefahren und habe Zeit mit meinen Freunden verbracht. Wir sind in die Stadt gefahren, um einzukaufen und danach haben wir in einem Café leckere Kuchen gegessen. Es war fantastisch, da ich nicht nur Spaß hatte, sondern auch viel Bewegung bekommen habe.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🌱 Global issues</div>
+        <div class="question-de">Q7 (DE): Was machst du für die Umwelt?</div>
+        <div class="question-en">Q7 (EN): What do you do for the environment?</div>
+        <button class="toggle" onclick="toggleAnswer('a6')">Show/Hide Answer</button>
+        <div class="answer" id="a6">👉 Ich versuche täglich etwas für die Umwelt zu tun, zum Beispiel recycle ich Glas, Plastik und Papier. Darüber hinaus benutze ich keine Plastiktüten, sondern umweltfreundliche Stofftaschen. Ich glaube fest daran, dass kleine Aktionen einen großen Unterschied machen können, besonders wenn jeder mitmacht.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🌱 Global issues</div>
+        <div class="question-de">Q8 (DE): Was wirst du morgen für die Umwelt tun?</div>
+        <div class="question-en">Q8 (EN): What will you do for the environment tomorrow?</div>
+        <button class="toggle" onclick="toggleAnswer('a7')">Show/Hide Answer</button>
+        <div class="answer" id="a7">👉 Morgen werde ich zu Fuß zur Schule gehen, um Luftverschmutzung zu reduzieren. Außerdem werde ich Strom sparen, indem ich die Lichter ausschalte, wenn ich den Raum verlasse. Diese kleinen Taten sind wichtig, weil wir die Erde für zukünftige Generationen schützen müssen.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🌱 Global issues</div>
+        <div class="question-de">Q9 (DE): Wie kann man Obdachlosen helfen?</div>
+        <div class="question-en">Q9 (EN): How can we help homeless people?</div>
+        <button class="toggle" onclick="toggleAnswer('a8')">Show/Hide Answer</button>
+        <div class="answer" id="a8">👉 Man kann Obdachlosen helfen, indem man in Suppenküchen arbeitet, Geld oder Kleidung spendet oder sogar ehrenamtlich in einem Obdachlosenheim hilft. Ich arbeite einmal pro Woche freiwillig in einer Suppenküche. Das gefällt mir gut, weil ich direkt sehen kann, wie meine Hilfe das Leben anderer verbessert. Ich finde es äußerst wichtig, Menschen zu helfen, die weniger Glück im Leben haben.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">❤️ Social issues</div>
+        <div class="question-de">Q10 (DE): Was ist deine Meinung über Alkohol oder Drogen?</div>
+        <div class="question-en">Q10 (EN): What is your opinion about alcohol or drugs?</div>
+        <button class="toggle" onclick="toggleAnswer('a9')">Show/Hide Answer</button>
+        <div class="answer" id="a9">👉 Ich bin strikt gegen Alkohol und Drogen, weil sie meiner Meinung nach extrem gefährlich sind. Alkohol riecht unangenehm und kann ernsthafte Gesundheitsprobleme verursachen, während Drogen das Risiko erhöhen, abhängig zu werden oder Krankheiten wie Krebs zu entwickeln. Junge Menschen sollten daher gesünder leben und auf diese gefährlichen Substanzen verzichten.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">🗺️ Travel and tourism</div>
+        <div class="question-de">Q11 (DE): Was ist besser: Sommerurlaub oder Winterurlaub?</div>
+        <div class="question-en">Q11 (EN): What is better: summer holidays or winter holidays?</div>
+        <button class="toggle" onclick="toggleAnswer('a10')">Show/Hide Answer</button>
+        <div class="answer" id="a10">👉 Ich persönlich bevorzuge Sommerurlaub, da es in der Regel sonnig und warm ist. Ich liebe es, am Strand zu liegen, mich zu sonnen und Wassersport zu treiben, besonders Volleyball oder Schwimmen. Jedoch kann Winterurlaub auch spannend sein, wenn man Skifahren oder Snowboarden mag. Trotzdem denke ich, dass Sommerferien entspannender und vielfältiger sind.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">⭐ Advanced: Local issues</div>
+        <div class="question-de">Q12 (DE): Wenn du Bürgermeister(in) deiner Stadt wärst, was würdest du ändern und warum?</div>
+        <div class="question-en">Q12 (EN): If you were mayor of your town, what would you change and why?</div>
+        <button class="toggle" onclick="toggleAnswer('a11')">Show/Hide Answer</button>
+        <div class="answer" id="a11">👉 Wenn ich Bürgermeister(in) wäre, würde ich sofort mehr Grünflächen und Parks schaffen, um die Luftqualität zu verbessern. Außerdem würde ich ein umfangreiches Recyclingprogramm einführen, damit die Stadt umweltfreundlicher wird. Mir wäre es wichtig, die öffentlichen Verkehrsmittel günstiger zu machen, damit weniger Menschen mit dem Auto fahren und so die Luftverschmutzung reduziert wird.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">⭐ Advanced: Social issues</div>
+        <div class="question-de">Q13 (DE): Warum ist es wichtig, in der heutigen Gesellschaft freiwillige Arbeit zu leisten?</div>
+        <div class="question-en">Q13 (EN): Why is it important to do voluntary work in today's society?</div>
+        <button class="toggle" onclick="toggleAnswer('a12')">Show/Hide Answer</button>
+        <div class="answer" id="a12">👉 Meiner Meinung nach ist freiwillige Arbeit entscheidend, da sie uns ermöglicht, Empathie und Solidarität zu zeigen. Indem man anderen hilft, lernt man soziale Verantwortung und verbessert gleichzeitig die Gemeinschaft, in der man lebt. Freiwilligenarbeit kann auch helfen, Armut und soziale Ungleichheit zu verringern, was heutzutage wichtiger denn je ist.</div>
+    </div>
+    
+    <div class="flashcard">
+        <div class="topic">⭐ Advanced: Global issues</div>
+        <div class="question-de">Q14 (DE): Was könnten wir alle tun, um Armut in der Welt zu bekämpfen?</div>
+        <div class="question-en">Q14 (EN): What could we all do to fight poverty in the world?</div>
+        <button class="toggle" onclick="toggleAnswer('a13')">Show/Hide Answer</button>
+        <div class="answer" id="a13">👉 Um Armut weltweit zu bekämpfen, könnten wir alle bewusster konsumieren und gerechter handeln. Wenn alle Menschen fair gehandelte Produkte kaufen würden, könnten Bauern in ärmeren Ländern ein besseres Einkommen erzielen. Außerdem sollten wir mehr Hilfsorganisationen unterstützen und dafür sorgen, dass jeder Mensch Zugang zu Bildung und sauberem Wasser erhält. Diese Schritte würden langfristig helfen, Armut nachhaltig zu reduzieren.</div>
+    </div>
+    </body></html>
