@@ -1,184 +1,143 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Theme 2 Flashcards</title>
-<style>
-  body {
-    font-family: "Helvetica", "Arial", sans-serif;
-    background-color: #f0f4f8;
-    color: #1e1e1e;
-    margin: 0;
-    padding: 16px;
-    line-height: 1.5;
-    font-size: 1rem;
-  }
-  h1 {
-    text-align: center;
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-  }
-  .flashcard {
-    background: #ffffff;
-    border-left: 5px solid #00b894;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  }
-  .topic {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #636e72;
-    margin-bottom: 6px;
-  }
-  .question-de {
-    font-style: italic;
-    color: #0984e3;
-    margin-bottom: 4px;
-  }
-  .question-en {
-    font-weight: bold;
-    color: #2d3436;
-    margin-bottom: 8px;
-  }
-  .answer {
-    display: none;
-    margin-top: 10px;
-    color: #2f3542;
-  }
-  .toggle {
-    background-color: #00cec9;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-size: 0.9rem;
-  }
-</style>
-<script>
-  function toggleAnswer(id) {
-    var answer = document.getElementById(id);
-    answer.style.display = answer.style.display === "block" ? "none" : "block";
-  }
-</script>
+    <meta charset="UTF-8">
+    <title>GCSE German Full Vocabulary by Topic</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 30px;
+            background-color: #f9f9f9;
+            color: #222;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2 {
+            text-align: center;
+            color: #666;
+            font-weight: normal;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1em;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+        .section-title {
+            font-size: 1.4em;
+            margin-top: 50px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-<h1>📘 Theme 2 Interactive Flashcards</h1>
+    <h1>GCSE German Vocabulary Masterlist</h1>
+    <h2>📘 Sorted by Topic · With Examples & Emojis</h2>
+    <div class="section-title">📚 School and Education</div>
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example Sentence</th><th>Emoji</th></tr>
+<tr><td>Unterricht</td><td>lesson</td><td>Der Unterricht beginnt um acht Uhr.</td><td class='emoji'>📖</td></tr>
+<tr><td>Handyverbot</td><td>mobile phone ban</td><td>In unserer Schule gilt ein Handyverbot.</td><td class='emoji'>📵</td></tr>
+<tr><td>Konzentration</td><td>concentration</td><td>Ohne Ruhe ist Konzentration schwer.</td><td class='emoji'>🧠</td></tr>
+<tr><td>Klassenarbeiten</td><td>class tests</td><td>Wir schreiben nächste Woche zwei Klassenarbeiten.</td><td class='emoji'>✍️</td></tr>
+<tr><td>abschreiben</td><td>to cheat (copy)</td><td>Man darf in der Prüfung nicht abschreiben.</td><td class='emoji'>🚫📄</td></tr>
+<tr><td>Prüfung</td><td>exam</td><td>Die Prüfung war ziemlich schwierig.</td><td class='emoji'>📝</td></tr>
+<tr><td>Zeugnis</td><td>school report</td><td>Ich habe ein gutes Zeugnis bekommen.</td><td class='emoji'>📄🏫</td></tr>
+<tr><td>der Stundenplan</td><td>timetable</td><td>Mein Stundenplan ist voll am Montag.</td><td class='emoji'>📆</td></tr>
+<tr><td>die Fremdsprache</td><td>foreign language</td><td>Ich lerne zwei Fremdsprachen in der Schule.</td><td class='emoji'>🗣️🌍</td></tr>
+<tr><td>streng</td><td>strict</td><td>Mein Lehrer ist sehr streng.</td><td class='emoji'>📏😠</td></tr>
+<tr><td>fleißig</td><td>hardworking</td><td>Er ist ein fleißiger Schüler.</td><td class='emoji'>💼</td></tr>
+<tr><td>Zukunftspläne</td><td>future plans</td><td>Meine Zukunftspläne sind noch nicht klar.</td><td class='emoji'>🔮</td></tr>
+<tr><td>Teilzeitjob</td><td>part-time job</td><td>Ich habe einen Teilzeitjob im Supermarkt.</td><td class='emoji'>🛒</td></tr>
+</table>
 
-    <div class="flashcard">
-        <div class="topic">🏡 Home, town, neighbourhood and region</div>
-        <div class="question-de">Q1 (DE): Wo wohnst du und wie findest du deine Stadt?</div>
-        <div class="question-en">Q1 (EN): Where do you live and what do you think of your town?</div>
-        <button class="toggle" onclick="toggleAnswer('a0')">Show/Hide Answer</button>
-        <div class="answer" id="a0">👉 Ich wohne seit fünf Jahren in Birmingham, das in Mittelengland liegt. Ich finde meine Stadt ziemlich interessant, weil es viel für Jugendliche gibt. Man kann nicht nur ins Kino oder einkaufen gehen, sondern auch historische Gebäude besichtigen. Obwohl es manchmal zu hektisch und laut ist, mag ich das Großstadtleben, da es nie langweilig wird.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🏡 Home, town, neighbourhood and region</div>
-        <div class="question-de">Q2 (DE): Beschreib’ dein Haus!</div>
-        <div class="question-en">Q2 (EN): Describe your house!</div>
-        <button class="toggle" onclick="toggleAnswer('a1')">Show/Hide Answer</button>
-        <div class="answer" id="a1">👉 Ich wohne in einem modernen, gemütlichen Bungalow, der sich in einem ruhigen Vorort befindet. Obwohl mein Haus klein ist, gefällt es mir besonders, weil es sehr komfortabel und umweltfreundlich ist. Es gibt zwei Schlafzimmer, ein Badezimmer und einen Garten, in dem ich oft entspanne. Das Beste an meinem Haus ist das Wohnzimmer, denn es ist äußerst geräumig und hell.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🏡 Home, town, neighbourhood and region</div>
-        <div class="question-de">Q3 (DE): Was kann man in deiner Stadt machen?</div>
-        <div class="question-en">Q3 (EN): What can you do in your town?</div>
-        <button class="toggle" onclick="toggleAnswer('a2')">Show/Hide Answer</button>
-        <div class="answer" id="a2">👉 In meiner Stadt gibt es zahlreiche Aktivitäten, besonders für junge Leute. Zum Beispiel kann man in das riesige Einkaufszentrum gehen oder spannende Filme im Kino ansehen. Außerdem gibt es viele Sportmöglichkeiten, wie Tennis- oder Fußballplätze. Persönlich treffe ich mich jedes Wochenende mit meinen Freunden, um etwas Interessantes zu machen, weil ich denke, dass es wichtig ist, aktiv und gesellig zu bleiben.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🗺️ Travel and tourism</div>
-        <div class="question-de">Q4 (DE): Was machst du normalerweise in den Ferien?</div>
-        <div class="question-en">Q4 (EN): What do you normally do in the holidays?</div>
-        <button class="toggle" onclick="toggleAnswer('a3')">Show/Hide Answer</button>
-        <div class="answer" id="a3">👉 Normalerweise verbringe ich meine Ferien aktiv, da ich nicht gern faulenze. Ich spiele oft Tennis im Park, gehe mit meinen Freunden ins Kino oder fahre mit dem Fahrrad auf dem Land, was immer entspannend ist. Meiner Meinung nach ist es wichtig, die Ferien gut zu nutzen, um fit und gesund zu bleiben.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🗺️ Travel and tourism</div>
-        <div class="question-de">Q5 (DE): Was sind deine Pläne für die Sommerferien?</div>
-        <div class="question-en">Q5 (EN): What are your plans for the summer holidays?</div>
-        <button class="toggle" onclick="toggleAnswer('a4')">Show/Hide Answer</button>
-        <div class="answer" id="a4">👉 In den kommenden Sommerferien werde ich mit meiner Familie nach Portugal reisen. Wir werden in einem luxuriösen Hotel am Strand übernachten, wo wir jeden Tag schwimmen und uns sonnen können. Außerdem plane ich, lokale Spezialitäten zu probieren und vielleicht auch eine neue Wassersportart zu lernen. Das wird sicher unvergesslich sein, weil ich gerne neue Kulturen erlebe.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🗺️ Travel and tourism</div>
-        <div class="question-de">Q6 (DE): Was hast du in den Osterferien gemacht?</div>
-        <div class="question-en">Q6 (EN): What did you do in the Easter holidays?</div>
-        <button class="toggle" onclick="toggleAnswer('a5')">Show/Hide Answer</button>
-        <div class="answer" id="a5">👉 In den letzten Osterferien bin ich viel Rad gefahren und habe Zeit mit meinen Freunden verbracht. Wir sind in die Stadt gefahren, um einzukaufen und danach haben wir in einem Café leckere Kuchen gegessen. Es war fantastisch, da ich nicht nur Spaß hatte, sondern auch viel Bewegung bekommen habe.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🌱 Global issues</div>
-        <div class="question-de">Q7 (DE): Was machst du für die Umwelt?</div>
-        <div class="question-en">Q7 (EN): What do you do for the environment?</div>
-        <button class="toggle" onclick="toggleAnswer('a6')">Show/Hide Answer</button>
-        <div class="answer" id="a6">👉 Ich versuche täglich etwas für die Umwelt zu tun, zum Beispiel recycle ich Glas, Plastik und Papier. Darüber hinaus benutze ich keine Plastiktüten, sondern umweltfreundliche Stofftaschen. Ich glaube fest daran, dass kleine Aktionen einen großen Unterschied machen können, besonders wenn jeder mitmacht.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🌱 Global issues</div>
-        <div class="question-de">Q8 (DE): Was wirst du morgen für die Umwelt tun?</div>
-        <div class="question-en">Q8 (EN): What will you do for the environment tomorrow?</div>
-        <button class="toggle" onclick="toggleAnswer('a7')">Show/Hide Answer</button>
-        <div class="answer" id="a7">👉 Morgen werde ich zu Fuß zur Schule gehen, um Luftverschmutzung zu reduzieren. Außerdem werde ich Strom sparen, indem ich die Lichter ausschalte, wenn ich den Raum verlasse. Diese kleinen Taten sind wichtig, weil wir die Erde für zukünftige Generationen schützen müssen.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🌱 Global issues</div>
-        <div class="question-de">Q9 (DE): Wie kann man Obdachlosen helfen?</div>
-        <div class="question-en">Q9 (EN): How can we help homeless people?</div>
-        <button class="toggle" onclick="toggleAnswer('a8')">Show/Hide Answer</button>
-        <div class="answer" id="a8">👉 Man kann Obdachlosen helfen, indem man in Suppenküchen arbeitet, Geld oder Kleidung spendet oder sogar ehrenamtlich in einem Obdachlosenheim hilft. Ich arbeite einmal pro Woche freiwillig in einer Suppenküche. Das gefällt mir gut, weil ich direkt sehen kann, wie meine Hilfe das Leben anderer verbessert. Ich finde es äußerst wichtig, Menschen zu helfen, die weniger Glück im Leben haben.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">❤️ Social issues</div>
-        <div class="question-de">Q10 (DE): Was ist deine Meinung über Alkohol oder Drogen?</div>
-        <div class="question-en">Q10 (EN): What is your opinion about alcohol or drugs?</div>
-        <button class="toggle" onclick="toggleAnswer('a9')">Show/Hide Answer</button>
-        <div class="answer" id="a9">👉 Ich bin strikt gegen Alkohol und Drogen, weil sie meiner Meinung nach extrem gefährlich sind. Alkohol riecht unangenehm und kann ernsthafte Gesundheitsprobleme verursachen, während Drogen das Risiko erhöhen, abhängig zu werden oder Krankheiten wie Krebs zu entwickeln. Junge Menschen sollten daher gesünder leben und auf diese gefährlichen Substanzen verzichten.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">🗺️ Travel and tourism</div>
-        <div class="question-de">Q11 (DE): Was ist besser: Sommerurlaub oder Winterurlaub?</div>
-        <div class="question-en">Q11 (EN): What is better: summer holidays or winter holidays?</div>
-        <button class="toggle" onclick="toggleAnswer('a10')">Show/Hide Answer</button>
-        <div class="answer" id="a10">👉 Ich persönlich bevorzuge Sommerurlaub, da es in der Regel sonnig und warm ist. Ich liebe es, am Strand zu liegen, mich zu sonnen und Wassersport zu treiben, besonders Volleyball oder Schwimmen. Jedoch kann Winterurlaub auch spannend sein, wenn man Skifahren oder Snowboarden mag. Trotzdem denke ich, dass Sommerferien entspannender und vielfältiger sind.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">⭐ Advanced: Local issues</div>
-        <div class="question-de">Q12 (DE): Wenn du Bürgermeister(in) deiner Stadt wärst, was würdest du ändern und warum?</div>
-        <div class="question-en">Q12 (EN): If you were mayor of your town, what would you change and why?</div>
-        <button class="toggle" onclick="toggleAnswer('a11')">Show/Hide Answer</button>
-        <div class="answer" id="a11">👉 Wenn ich Bürgermeister(in) wäre, würde ich sofort mehr Grünflächen und Parks schaffen, um die Luftqualität zu verbessern. Außerdem würde ich ein umfangreiches Recyclingprogramm einführen, damit die Stadt umweltfreundlicher wird. Mir wäre es wichtig, die öffentlichen Verkehrsmittel günstiger zu machen, damit weniger Menschen mit dem Auto fahren und so die Luftverschmutzung reduziert wird.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">⭐ Advanced: Social issues</div>
-        <div class="question-de">Q13 (DE): Warum ist es wichtig, in der heutigen Gesellschaft freiwillige Arbeit zu leisten?</div>
-        <div class="question-en">Q13 (EN): Why is it important to do voluntary work in today's society?</div>
-        <button class="toggle" onclick="toggleAnswer('a12')">Show/Hide Answer</button>
-        <div class="answer" id="a12">👉 Meiner Meinung nach ist freiwillige Arbeit entscheidend, da sie uns ermöglicht, Empathie und Solidarität zu zeigen. Indem man anderen hilft, lernt man soziale Verantwortung und verbessert gleichzeitig die Gemeinschaft, in der man lebt. Freiwilligenarbeit kann auch helfen, Armut und soziale Ungleichheit zu verringern, was heutzutage wichtiger denn je ist.</div>
-    </div>
-    
-    <div class="flashcard">
-        <div class="topic">⭐ Advanced: Global issues</div>
-        <div class="question-de">Q14 (DE): Was könnten wir alle tun, um Armut in der Welt zu bekämpfen?</div>
-        <div class="question-en">Q14 (EN): What could we all do to fight poverty in the world?</div>
-        <button class="toggle" onclick="toggleAnswer('a13')">Show/Hide Answer</button>
-        <div class="answer" id="a13">👉 Um Armut weltweit zu bekämpfen, könnten wir alle bewusster konsumieren und gerechter handeln. Wenn alle Menschen fair gehandelte Produkte kaufen würden, könnten Bauern in ärmeren Ländern ein besseres Einkommen erzielen. Außerdem sollten wir mehr Hilfsorganisationen unterstützen und dafür sorgen, dass jeder Mensch Zugang zu Bildung und sauberem Wasser erhält. Diese Schritte würden langfristig helfen, Armut nachhaltig zu reduzieren.</div>
-    </div>
-    </body></html>
+<div class="section-title">🌍 Global and Social Issues</div>
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example Sentence</th><th>Emoji</th></tr>
+<tr><td>Armut</td><td>poverty</td><td>Viele Menschen leiden unter Armut.</td><td class='emoji'>💸</td></tr>
+<tr><td>obdachlos</td><td>homeless</td><td>Es gibt viele obdachlose Menschen in der Stadt.</td><td class='emoji'>🚫🏠</td></tr>
+<tr><td>ehrenamtlich</td><td>voluntary/unpaid</td><td>Er arbeitet ehrenamtlich im Altenheim.</td><td class='emoji'>🙏🏽🏥</td></tr>
+<tr><td>das Altenheim</td><td>care home</td><td>Meine Oma lebt in einem Altenheim.</td><td class='emoji'>👵🏽🏡</td></tr>
+<tr><td>spenden</td><td>to donate</td><td>Wir spenden alte Kleidung.</td><td class='emoji'>🎁❤️</td></tr>
+<tr><td>vermeiden</td><td>to avoid</td><td>Du solltest Stress vermeiden.</td><td class='emoji'>🚫😣</td></tr>
+<tr><td>notwendig</td><td>necessary</td><td>Es ist notwendig, pünktlich zu sein.</td><td class='emoji'>⏰📋</td></tr>
+<tr><td>häufig</td><td>frequently</td><td>Er reist häufig nach Deutschland.</td><td class='emoji'>✈️🇩🇪</td></tr>
+<tr><td>helfen</td><td>to help</td><td>Ich möchte den Obdachlosen helfen.</td><td class='emoji'>🤝</td></tr>
+<tr><td>sozial</td><td>social</td><td>Soziale Themen sind mir wichtig.</td><td class='emoji'>👥</td></tr>
+</table>
+
+<div class="section-title">♻️ Environment and Health</div>
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example Sentence</th><th>Emoji</th></tr>
+<tr><td>recyceln</td><td>to recycle</td><td>Wir recyceln Plastikflaschen.</td><td class='emoji'>♻️🌍</td></tr>
+<tr><td>Plastikflaschen</td><td>plastic bottles</td><td>Plastikflaschen sollen recycelt werden.</td><td class='emoji'>🥤</td></tr>
+<tr><td>Umweltschutz</td><td>environmental protection</td><td>Umweltschutz ist sehr wichtig.</td><td class='emoji'>🌍</td></tr>
+<tr><td>die Umweltverschmutzung</td><td>pollution</td><td>Umweltverschmutzung ist ein großes Problem.</td><td class='emoji'>🌫️🚯</td></tr>
+<tr><td>der Klimawandel</td><td>climate change</td><td>Der Klimawandel betrifft uns alle.</td><td class='emoji'>🌍⚠️</td></tr>
+<tr><td>süchtig</td><td>addicted</td><td>Er ist süchtig nach Computerspielen.</td><td class='emoji'>🎮🔁</td></tr>
+<tr><td>Fastfood</td><td>fast food</td><td>Ich esse nicht oft Fastfood.</td><td class='emoji'>🍔</td></tr>
+<tr><td>gesund</td><td>healthy</td><td>Obst und Gemüse sind gesund.</td><td class='emoji'>🍏🥦</td></tr>
+<tr><td>ungesund</td><td>unhealthy</td><td>Fastfood ist oft ungesund.</td><td class='emoji'>🍟</td></tr>
+</table>
+
+<div class="section-title">⚽ Free Time and Media</div>
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example Sentence</th><th>Emoji</th></tr>
+<tr><td>Komödien</td><td>comedies</td><td>Ich sehe gern Komödien am Wochenende.</td><td class='emoji'>😂🎬</td></tr>
+<tr><td>Liebesfilme</td><td>romance films</td><td>Liebesfilme sind nicht mein Geschmack.</td><td class='emoji'>💘🎞️</td></tr>
+<tr><td>Hobby</td><td>hobby</td><td>Lesen ist mein Hobby.</td><td class='emoji'>📖</td></tr>
+<tr><td>Konzert</td><td>concert</td><td>Das Konzert war laut und toll!</td><td class='emoji'>🎤</td></tr>
+<tr><td>Tanzen</td><td>to dance</td><td>Ich tanze gern in meiner Freizeit.</td><td class='emoji'>💃</td></tr>
+<tr><td>unterhaltsam</td><td>entertaining</td><td>Der Film war wirklich unterhaltsam.</td><td class='emoji'>🎥😂</td></tr>
+<tr><td>einmalig</td><td>unique</td><td>Die Aussicht war einmalig!</td><td class='emoji'>🌄✨</td></tr>
+<tr><td>erfolgreich</td><td>successful</td><td>Sie war sehr erfolgreich in ihrer Karriere.</td><td class='emoji'>🏆💼</td></tr>
+</table>
+
+<div class="section-title">💞 Relationships and Lifestyle</div>
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example Sentence</th><th>Emoji</th></tr>
+<tr><td>Hochzeit</td><td>wedding</td><td>Wir gehen am Samstag zu einer Hochzeit.</td><td class='emoji'>💒</td></tr>
+<tr><td>Freundschaft</td><td>friendship</td><td>Freundschaft ist sehr wichtig im Leben.</td><td class='emoji'>❤️</td></tr>
+<tr><td>zusammenleben</td><td>to live together</td><td>Sie haben beschlossen, zusammenzuleben.</td><td class='emoji'>🏡</td></tr>
+<tr><td>faulenzen</td><td>to laze about</td><td>Am Sonntag faulenze ich gern.</td><td class='emoji'>🛌😌</td></tr>
+<tr><td>sich entspannen</td><td>to relax</td><td>Ich entspanne mich beim Lesen.</td><td class='emoji'>📖🧘</td></tr>
+<tr><td>ruhig</td><td>quiet</td><td>Unser Hotel war sehr ruhig.</td><td class='emoji'>🤫🏨</td></tr>
+<tr><td>gemütlich</td><td>cosy</td><td>Unser Wohnzimmer ist sehr gemütlich.</td><td class='emoji'>🛋️🕯️</td></tr>
+</table>
+
+<div class="section-title">✈️ Travel and Local Area</div>
+<table>
+<tr><th>Word</th><th>Meaning</th><th>Example Sentence</th><th>Emoji</th></tr>
+<tr><td>Urlaub</td><td>holiday</td><td>Ich mache Urlaub in Spanien.</td><td class='emoji'>🏖️</td></tr>
+<tr><td>Volksfest</td><td>folk festival</td><td>Wir besuchen ein Volksfest im Sommer.</td><td class='emoji'>🎡</td></tr>
+<tr><td>Hotel</td><td>hotel</td><td>Unser Hotel war sehr gemütlich.</td><td class='emoji'>🏨</td></tr>
+<tr><td>der Vorort</td><td>suburb</td><td>Wir wohnen in einem ruhigen Vorort.</td><td class='emoji'>🏘️</td></tr>
+<tr><td>öffentliche Verkehrsmittel</td><td>public transport</td><td>Ich nehme die öffentlichen Verkehrsmittel.</td><td class='emoji'>🚌</td></tr>
+<tr><td>Handgepäck</td><td>hand luggage</td><td>Ich habe mein Handgepäck vergessen.</td><td class='emoji'>🎒✈️</td></tr>
+<tr><td>Unterkunft</td><td>accommodation</td><td>Wir suchen eine günstige Unterkunft.</td><td class='emoji'>🏨🔍</td></tr>
+<tr><td>ausgebucht</td><td>fully booked</td><td>Das Hotel ist leider ausgebucht.</td><td class='emoji'>❌🏨</td></tr>
+<tr><td>mit dem Auto</td><td>by car</td><td>Wir fahren mit dem Auto nach Berlin.</td><td class='emoji'>🚗</td></tr>
+</table>
+
+</body>
+</html>
