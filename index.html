@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GCSE German Writing Flashcards</title>
   <style>
+    .theme1 { background-color: #ffeef8; }
+    .theme2 { background-color: #e8fff4; }
+    .theme3 { background-color: #e8f0ff; }
     body {
       font-family: Helvetica, Arial, sans-serif;
       background-color: #f7faff;
@@ -70,11 +73,20 @@
 </head>
 <body>
 
-<div class="heading">GCSE German Writing Flashcards 📚✨</div>
+<div class="heading" style="display: flex; justify-content: space-between; align-items: center;">
+  <span>GCSE German Writing Flashcards 📚✨</span>
+  <div id="pomodoro" style="font-size: 0.9em; padding: 8px 12px; background-color: #e0f7fa; color: #006064; border-radius: 12px; display: flex; align-items: center; gap: 8px;">
+  <span id="timer">25:00</span>
+  <button onclick="startTimer()" style="font-size: 0.8em;">▶️</button>
+  <button onclick="resetTimer()" style="font-size: 0.8em;">⏹️</button>
+  <button onclick="toggleDarkMode()" style="font-size: 0.8em;">🌙</button>
+  <span id="achievements" style="margin-left: 8px;"></span>
+</div>
+</div>
 
 <div class="subheading">📱 Soziale Netzwerke (90 Wörter)</div>
-<div class="container">
-  <div class="bullet-points">
+<div class="container theme1">
+  <div class="bullet-points theme1">
     <strong>Bullet Points:</strong>
     <ul>
       <li>Wie oft benutzt du soziale Netzwerke?</li>
@@ -99,8 +111,8 @@
 </div>
 
 <div class="subheading">👩‍⚕️ Beruf und Zukunftspläne (150 Wörter)</div>
-<div class="container">
-  <div class="bullet-points">
+<div class="container theme3">
+  <div class="bullet-points theme3">
     <strong>Bullet Points:</strong>
     <ul>
       <li>Was du beruflich machen möchtest</li>
@@ -122,8 +134,8 @@
 </div>
 
 <div class="subheading">🏖️ Urlaub und Reisen (90 Wörter)</div>
-<div class="container">
-  <div class="bullet-points">
+<div class="container theme2">
+  <div class="bullet-points theme2">
     <strong>Bullet Points:</strong>
     <ul>
       <li>Wo du normalerweise Urlaub machst</li>
@@ -146,8 +158,8 @@
 </div>
 
 <div class="subheading">🎉 Familie, Freunde und Feste (150 Wörter)</div>
-<div class="container">
-  <div class="bullet-points">
+<div class="container theme1">
+  <div class="bullet-points theme1">
     <strong>Bullet Points:</strong>
     <ul>
       <li>Ein Fest, das du kürzlich gefeiert hast</li>
@@ -174,6 +186,97 @@ function toggleVisibility(event) {
     event.target.classList.toggle('hidden');
   }
 }
+function startTimer() {
+  let minutes = 24;
+  let seconds = 60;
+  clearInterval(window.pomoInterval);
+  window.pomoInterval = setInterval(() => {
+    seconds--;
+    if (seconds < 0) {
+      minutes--;
+      seconds = 59;
+    }
+    if (minutes < 0) {
+      clearInterval(window.pomoInterval);
+      document.getElementById("timer").textContent = "Break!";
+      return;
+    }
+    let m = minutes < 10 ? "0" + minutes : minutes;
+    let s = seconds < 10 ? "0" + seconds : seconds;
+    document.getElementById("timer").textContent = `${m}:${s}`;
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(window.pomoInterval);
+  document.getElementById("timer").textContent = "25:00";
+}
+function startTimer() {
+  let minutes = 24;
+  let seconds = 60;
+  let elapsedSeconds = 0;
+  clearInterval(window.pomoInterval);
+  window.pomoInterval = setInterval(() => {
+    seconds--;
+    elapsedSeconds++;
+    if (seconds < 0) {
+      minutes--;
+      seconds = 59;
+    }
+    if (minutes < 0) {
+      clearInterval(window.pomoInterval);
+      document.getElementById("timer").textContent = "Break!";
+      showAchievement("🎉 Completed 25 mins!");
+      return;
+    }
+    let m = minutes < 10 ? "0" + minutes : minutes;
+    let s = seconds < 10 ? "0" + seconds : seconds;
+    document.getElementById("timer").textContent = `${m}:${s}`;
+    if (elapsedSeconds === 300) showAchievement("✔️ 5 mins!");
+    if (elapsedSeconds === 600) showAchievement("✨ 10 mins!");
+    if (elapsedSeconds === 1200) showAchievement("🚀 20 mins!");
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(window.pomoInterval);
+  document.getElementById("timer").textContent = "25:00";
+  document.getElementById("achievements").innerHTML = "";
+}
+
+function showAchievement(text) {
+  const badge = document.createElement("span");
+  badge.textContent = text;
+  badge.style.marginLeft = "5px";
+  badge.style.transition = "opacity 0.5s";
+  badge.style.opacity = 0;
+  setTimeout(() => badge.style.opacity = 1, 100);
+  document.getElementById("achievements").appendChild(badge);
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+</script>
+
+<style>
+  .dark {
+    background-color: #121212;
+    color: #f1f1f1;
+  }
+  .dark .table-container,
+  .dark .bullet-points,
+  .dark .theme1,
+  .dark .theme2,
+  .dark .theme3 {
+    background-color: #1e1e1e !important;
+    color: #f1f1f1 !important;
+  }
+  .dark th {
+    background-color: #333 !important;
+    color: #f1f1f1 !important;
+  }
+</style>
 </script>
 
 </body>
