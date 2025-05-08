@@ -342,6 +342,7 @@
       modal.style.padding = "15px";
       modal.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
       modal.innerHTML = `
+        <button id='closeDashboard' style="position:absolute;top:5px;right:10px;border:none;background:none;font-size:18px;cursor:pointer;">✖️</button>
         <h3>📊 Study Dashboard</h3>
         <p>XP: ${currentXP}</p>
         <p>Level: ${document.getElementById("level").textContent}</p>
@@ -366,6 +367,13 @@
         </ul>
       `;
       document.body.appendChild(modal);
+      document.getElementById("closeDashboard").addEventListener("click", () => modal.remove());
+      document.addEventListener("click", function outsideClick(e) {
+        if (modal && !modal.contains(e.target) && e.target.id !== 'dashboardBtn') {
+          modal.remove();
+          document.removeEventListener("click", outsideClick);
+        }
+      });
     }
 
     document.getElementById("nightModeToggle").addEventListener("click", () => {
