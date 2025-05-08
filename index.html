@@ -3,281 +3,383 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GCSE German Writing Flashcards</title>
+  <title>GCSE Flashcards Site</title>
   <style>
-    .theme1 { background-color: #ffeef8; }
-    .theme2 { background-color: #e8fff4; }
-    .theme3 { background-color: #e8f0ff; }
     body {
-      font-family: Helvetica, Arial, sans-serif;
-      background-color: #f7faff;
-      color: #333;
+      font-family: Helvetica, sans-serif;
       margin: 0;
       padding: 20px;
+      background: #f7f9fb;
     }
-    .heading {
-      text-align: center;
-      font-size: 1.8em;
-      color: #556cd6;
-      margin-bottom: 20px;
+    body.night-mode {
+      background: #111;
+      color: #f2f2f2;
     }
-    .subheading {
-      font-size: 1.4em;
-      text-align: center;
-      margin: 30px 0 15px;
-      color: #444;
-    }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-    .bullet-points {
-      max-width: 220px;
-      background-color: #e1eaff;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 0.95em;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .table-container {
-      overflow-x: auto;
-      max-width: 750px;
-      background-color: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .flashcard {
+      margin: 25px 0;
+      padding: 20px;
+      border-radius: 12px;
+      background-color: #ffffff;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-      border-bottom: 1px solid #dde4ff;
+      margin-top: 10px;
+      font-size: 15px;
+      background-color: #ffe9cc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
     th {
-      background-color: #d0dbff;
-      color: #4051b5;
+      background-color: #d8eaff;
+      color: #333;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px;
     }
-    tr:last-child td { border-bottom: none; }
-    .sentence { cursor: pointer; }
-    .hidden { color: transparent; user-select: none; }
-
-    @media (max-width: 600px) {
-      .container { flex-direction: column; }
+    td {
+      padding: 10px;
+      border-top: 1px solid #f0f0f0;
+      transition: background-color 0.3s;
+    }
+    tr:hover td {
+      background-color: #f0f8ff;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.1rem;
+      margin-top: 10px;
+      background: linear-gradient(120deg,#ffb347,#ffd194,#ffc78a);
+      background-size: 200% 200%;
+      animation: pulseGradient 4s ease infinite;
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: bold;
+    }
+    #top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    #dashboardBtn {
+      background: #556cd6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+    #progressBar {
+      width: 100%;
+      background: #eee;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    #progressFill {
+      height: 12px;
+      width: 0%;
+      background: linear-gradient(to right, #42a5f5, #478ed1);
+      transition: width 0.5s ease-in-out;
+    }
+    #titleUnlocked {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      padding: 8px 14px;
+      font-size: 0.95em;
+      border-radius: 8px;
+      display: none;
+      z-index: 9999;
+    }
+    @keyframes pulseGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
   </style>
 </head>
 <body>
+  <h1>📘 GCSE Writing Examination Higher</h1>
+  <button id="nightModeToggle" style="position:fixed;top:10px;left:10px;background:#444;color:#fff;padding:6px 10px;border:none;border-radius:6px;cursor:pointer;z-index:9999;">🌙</button>
 
-<div class="heading" style="display: flex; justify-content: space-between; align-items: center;">
-  <span>GCSE German Writing Flashcards 📚✨</span>
-  <div id="pomodoro" style="font-size: 0.9em; padding: 8px 12px; background-color: #e0f7fa; color: #006064; border-radius: 12px; display: flex; align-items: center; gap: 8px;">
-  <span id="timer">25:00</span>
-  <button onclick="startTimer()" style="font-size: 0.8em;">▶️</button>
-  <button onclick="resetTimer()" style="font-size: 0.8em;">⏹️</button>
-  <button onclick="toggleDarkMode()" style="font-size: 0.8em;">🌙</button>
-  <span id="achievements" style="margin-left: 8px;"></span>
-</div>
-</div>
-
-<div class="subheading">📱 Soziale Netzwerke (90 Wörter)</div>
-<div class="container theme1">
-  <div class="bullet-points theme1">
-    <strong>Bullet Points:</strong>
-    <ul>
-      <li>Wie oft benutzt du soziale Netzwerke?</li>
-      <li>Deine Meinung über soziale Medien</li>
-      <li>Was du letzte Woche online gemacht hast</li>
-      <li>Was du morgen machen wirst</li>
-    </ul>
+  <div id="top-bar">
+    <div>
+      ⏱ Time Studied: <span id="studyTimer">00:00</span>
+    </div>
+    <div>
+      <button onclick="startTimer()">▶️ Start</button>
+      <button onclick="resetTimer()">⏹️ Reset</button>
+      <button id="dashboardBtn" onclick="toggleDashboard()">📊 Dashboard</button>
+    </div>
+    <div>
+      🧠 XP: <span id="xp">0</span> | Level: <span id="level">1</span><br>
+      <span id="titleDisplay">Title: Novice</span>
+      <div id="progressBar"><div id="progressFill"></div></div>
+    </div>
   </div>
-  <div class="table-container" onclick="toggleVisibility(event)">
+
+  <div id="titleUnlocked">🔓 New Title Unlocked!</div>
+
+  <section id="flashcards">
+  <div class="flashcard">
+    <h3>📱 Soziale Netzwerke (90 Wörter)</h3>
+    <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
+      <li>📱 Wie oft benutzt du soziale Netzwerke?</li>
+      <li>🧠 Deine Meinung über soziale Medien</li>
+      <li>🕒 Was du letzte Woche online gemacht hast</li>
+      <li>🔮 Was du morgen machen wirst</li>
+    </ul>
     <table>
       <tr><th>German</th><th>English (Literal)</th></tr>
-      <tr><td class="sentence">Ich benutze soziale Netzwerke jeden Tag, meistens Instagram und TikTok.</td><td>I use social networks every day, mostly Instagram and TikTok.</td></tr>
-      <tr><td class="sentence">Ich finde Instagram besonders nützlich, weil man viele interessante Fotos sehen kann.</td><td>I find Instagram especially useful because one can see many interesting photos.</td></tr>
-      <tr><td class="sentence">Ich denke, dass soziale Medien gut sind, um mit Freunden in Kontakt zu bleiben.</td><td>I think that social media are good to stay in contact with friends.</td></tr>
-      <tr><td class="sentence">Letzte Woche habe ich ein Video gepostet und mit Freunden über ein Spiel diskutiert.</td><td>Last week I posted a video and discussed a game with friends.</td></tr>
-      <tr><td class="sentence">Das hat Spaß gemacht, obwohl mein WLAN ziemlich schlecht war.</td><td>That was fun, although my Wi-Fi was quite bad.</td></tr>
-      <tr><td class="sentence">Morgen will ich ein neues Foto hochladen und meinem besten Freund einen Kommentar schreiben.</td><td>Tomorrow I want to upload a new photo and write a comment to my best friend.</td></tr>
-      <tr><td class="sentence">Manchmal nerven mich soziale Netzwerke, weil Leute nur perfekte Bilder zeigen.</td><td>Sometimes social networks annoy me because people only show perfect pictures.</td></tr>
-      <tr><td class="sentence">Es ist nicht mein Ding, wenn alles künstlich wirkt. (idiom)</td><td>It is not my thing when everything seems artificial. (idiom)</td></tr>
+      <tr><td class="german-cell">Ich benutze soziale Netzwerke jeden Tag, meistens Instagram und TikTok.</td><td>I use social networks every day, mostly Instagram and TikTok.</td></tr>
+      <tr><td class="german-cell">Ich finde Instagram besonders nützlich, weil man viele interessante Fotos sehen kann.</td><td>I find Instagram especially useful because one can see many interesting photos.</td></tr>
+      <tr><td class="german-cell">Ich denke, dass soziale Medien gut sind, um mit Freunden in Kontakt zu bleiben.</td><td>I think that social media are good for staying in contact with friends.</td></tr>
+      <tr><td class="german-cell">Letzte Woche habe ich ein Video gepostet und mit Freunden über ein Spiel diskutiert.</td><td>Last week I posted a video and discussed a game with friends.</td></tr>
+      <tr><td class="german-cell">Das hat Spaß gemacht, obwohl mein WLAN ziemlich schlecht war.</td><td>That was fun, although my WiFi was quite bad.</td></tr>
+      <tr><td class="german-cell">Morgen will ich ein neues Foto hochladen und meinem besten Freund einen Kommentar schreiben.</td><td>Tomorrow I want to upload a photo and write a comment to my best friend.</td></tr>
+      <tr><td class="german-cell">Manchmal nerven mich soziale Netzwerke, weil Leute nur perfekte Bilder zeigen.</td><td>Sometimes social networks annoy me because people only show perfect pictures.</td></tr>
+      <tr><td class="german-cell">Es ist nicht mein Ding, wenn alles künstlich wirkt. (idiom)</td><td>It is not my thing when everything seems fake. (idiom)</td></tr>
     </table>
   </div>
+<div class="flashcard">
+  <h3>🎉 Ein Fest (150 Wörter)</h3>
+  <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
+    <li>🕯️ Ein Fest, das du kürzlich gefeiert hast</li>
+    <li>🎈 Warum Feste für dich wichtig sind</li>
+  </ul>
+  <table>
+    <tr><th>German</th><th>English (Literal)</th></tr>
+    <tr><td class="german-cell">Letzten Dezember habe ich mit meiner Familie Weihnachten gefeiert.</td><td>Last December I celebrated Christmas with my family.</td></tr>
+    <tr><td class="german-cell">Wir haben ein großes Abendessen vorbereitet und den Tannenbaum geschmückt.</td><td>We prepared a big dinner and decorated the Christmas tree.</td></tr>
+    <tr><td class="german-cell">Es gab viele Lichter, Musik und leckeres Essen.</td><td>There were many lights, music and delicious food.</td></tr>
+    <tr><td class="german-cell">Meine Geschwister haben ein Weihnachtslied gesungen und Geschenke verteilt.</td><td>My siblings sang a Christmas song and handed out presents.</td></tr>
+    <tr><td class="german-cell">Ich habe ein Buch bekommen, das ich schon lange lesen wollte.</td><td>I got a book I had wanted to read for a long time.</td></tr>
+    <tr><td class="german-cell">Es war ein wunderschöner Abend mit viel Lachen und Freude.</td><td>It was a wonderful evening with lots of laughter and joy.</td></tr>
+    <tr><td class="german-cell">Solche Momente sind für mich sehr bedeutungsvoll.</td><td>Such moments are very meaningful for me.</td></tr>
+    <tr><td class="german-cell">Ich finde Feste wichtig, weil sie uns mit unseren Wurzeln verbinden.</td><td>I find festivals important because they connect us to our roots.</td></tr>
+    <tr><td class="german-cell">Außerdem bringen sie Familien und Freunde näher zusammen.</td><td>They also bring families and friends closer together.</td></tr>
+    <tr><td class="german-cell">Traditionen geben uns Stabilität und machen das Leben bunter.</td><td>Traditions give us stability and make life more colourful.</td></tr>
+    <tr><td class="german-cell">Im nächsten Jahr möchte ich ein neues Fest entdecken, vielleicht Karneval in Köln.</td><td>Next year I want to experience a new festival, maybe carnival in Cologne.</td></tr>
+    <tr><td class="german-cell">Ich interessiere mich sehr für verschiedene Kulturen und Bräuche.</td><td>I'm very interested in different cultures and customs.</td></tr>
+    <tr><td class="german-cell">Es macht Spaß, Neues zu lernen und zu feiern.</td><td>It's fun to learn and celebrate new things.</td></tr>
+    <tr><td class="german-cell">Man soll schließlich die Feste feiern, wie sie fallen! (idiom)</td><td>You should celebrate festivals as they come! (idiom)</td></tr>
+  </table>
 </div>
 
-<div class="subheading">👩‍⚕️ Beruf und Zukunftspläne (150 Wörter)</div>
-<div class="container theme3">
-  <div class="bullet-points theme3">
-    <strong>Bullet Points:</strong>
-    <ul>
-      <li>Was du beruflich machen möchtest</li>
-      <li>Warum du das machen willst (Uni, Gründe usw.)</li>
-    </ul>
-  </div>
-  <div class="table-container" onclick="toggleVisibility(event)">
-    <table>
-      <tr><th>German</th><th>English (Literal)</th></tr>
-      <tr><td class="sentence">Ich habe viele Pläne für die Zukunft, aber zuerst will ich mein Abitur schaffen.</td><td>I have many plans for the future, but first I want to pass my A-levels.</td></tr>
-      <tr><td class="sentence">Ich lerne fleißig, besonders Mathe und Biologie, weil ich Medizin studieren möchte.</td><td>I study hard, especially maths and biology, because I want to study medicine.</td></tr>
-      <tr><td class="sentence">Danach will ich an die Uni gehen und später im Krankenhaus arbeiten.</td><td>Afterwards I want to go to university and later work in a hospital.</td></tr>
-      <tr><td class="sentence">Letztes Jahr habe ich ein Praktikum gemacht – ich habe bei einem Zahnarzt geholfen.</td><td>Last year I did a placement – I helped at a dentist’s.</td></tr>
-      <tr><td class="sentence">Das war eine tolle Erfahrung, obwohl es manchmal langweilig war.</td><td>That was a great experience, although it was sometimes boring.</td></tr>
-      <tr><td class="sentence">Mein Bruder sagt, ich sollte BWL studieren, aber ich weiß, dass Medizin besser für mich ist.</td><td>My brother says I should study business, but I know that medicine is better for me.</td></tr>
-      <tr><td class="sentence">Ich hoffe, dass ich Erfolg haben werde – ich drücke mir die Daumen! (idiom)</td><td>I hope that I will be successful – I’m pressing my thumbs! (idiom = good luck)</td></tr>
-    </table>
-  </div>
+<div class="flashcard">
+  <h3>✈️ Urlaub (90 Wörter)</h3>
+  <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
+    <li>🌞 Wohin du normalerweise fährst</li>
+    <li>😎 Warum Urlaub wichtig ist</li>
+    <li>🚗 Wohin du letztes Jahr gefahren bist</li>
+    <li>🗺️ Wohin du nächstes Jahr fahren wirst</li>
+  </ul>
+  <table>
+    <tr><th>German</th><th>English (Literal)</th></tr>
+    <tr><td class="german-cell">Normalerweise fahre ich im Sommer nach Spanien, weil es dort heiß und sonnig ist.</td><td>Normally I go to Spain in summer because it's hot and sunny there.</td></tr>
+    <tr><td class="german-cell">Ich finde Urlaub wichtig, um mich zu entspannen und Stress zu vergessen.</td><td>I find holidays important to relax and forget stress.</td></tr>
+    <tr><td class="german-cell">Letztes Jahr bin ich mit meiner Familie nach Frankreich gefahren, und wir haben Paris besucht.</td><td>Last year I went to France with my family, and we visited Paris.</td></tr>
+    <tr><td class="german-cell">Das war super, obwohl die Reise etwas lang war.</td><td>That was great although the journey was a bit long.</td></tr>
+    <tr><td class="german-cell">Nächstes Jahr möchte ich nach Italien reisen, um die Sehenswürdigkeiten in Rom zu sehen.</td><td>Next year I want to travel to Italy to see the sights in Rome.</td></tr>
+    <tr><td class="german-cell">Reisen erweitert den Horizont – das finde ich toll, denn Reisen bildet. (idiom)</td><td>Travelling broadens the mind – I think that's great because travelling educates. (idiom)</td></tr>
+  </table>
 </div>
 
-<div class="subheading">🏖️ Urlaub und Reisen (90 Wörter)</div>
-<div class="container theme2">
-  <div class="bullet-points theme2">
-    <strong>Bullet Points:</strong>
-    <ul>
-      <li>Wo du normalerweise Urlaub machst</li>
-      <li>Deine Meinung über Urlaub</li>
-      <li>Was du letztes Jahr gemacht hast</li>
-      <li>Wo du nächstes Jahr hinfahren willst</li>
-    </ul>
-  </div>
-  <div class="table-container" onclick="toggleVisibility(event)">
-    <table>
-      <tr><th>German</th><th>English (Literal)</th></tr>
-      <tr><td class="sentence">Normalerweise fahre ich im Sommer nach Spanien, weil es dort heiß und sonnig ist.</td><td>Normally I travel to Spain in summer because it is hot and sunny there.</td></tr>
-      <tr><td class="sentence">Ich finde Urlaub wichtig, um mich zu entspannen und Stress zu vergessen.</td><td>I find holidays important to relax and forget stress.</td></tr>
-      <tr><td class="sentence">Letztes Jahr bin ich mit meiner Familie nach Frankreich gefahren, und wir haben Paris besucht.</td><td>Last year I travelled to France with my family, and we visited Paris.</td></tr>
-      <tr><td class="sentence">Das war super, obwohl die Reise etwas lang war.</td><td>That was great, although the journey was a bit long.</td></tr>
-      <tr><td class="sentence">Nächstes Jahr möchte ich nach Italien reisen, um die Sehenswürdigkeiten in Rom zu sehen.</td><td>Next year I would like to go to Italy to see the sights in Rome.</td></tr>
-      <tr><td class="sentence">Reisen erweitert den Horizont – das finde ich toll, denn Reisen bildet. (idiom)</td><td>Travelling broadens your horizons – I think that's great, because travelling educates. (idiom)</td></tr>
-    </table>
-  </div>
+<div class="flashcard">
+  <h3>💼 Meine Zukunftspläne (150 Wörter)</h3>
+  <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
+    <li>🎓 Was du nach der Schule machen wirst</li>
+    <li>🏥 Was du später beruflich machen möchtest</li>
+  </ul>
+  <table>
+    <tr><th>German</th><th>English (Literal)</th></tr>
+    <tr><td class="german-cell">Ich habe viele Pläne für die Zukunft, aber zuerst will ich mein Abitur schaffen.</td><td>I have many plans for the future, but first I want to pass my A-levels.</td></tr>
+    <tr><td class="german-cell">Ich lerne fleißig, besonders Mathe und Biologie, weil ich Medizin studieren möchte.</td><td>I study hard, especially maths and biology, because I want to study medicine.</td></tr>
+    <tr><td class="german-cell">Danach will ich an die Uni gehen und später im Krankenhaus arbeiten.</td><td>After that I want to go to university and later work in a hospital.</td></tr>
+    <tr><td class="german-cell">Ich interessiere mich besonders für Kinderheilkunde, weil ich gern mit Kindern arbeite.</td><td>I'm especially interested in paediatrics because I enjoy working with children.</td></tr>
+    <tr><td class="german-cell">Letztes Jahr habe ich ein Praktikum gemacht – ich habe bei einem Zahnarzt geholfen.</td><td>Last year I did work experience – I helped at a dentist’s.</td></tr>
+    <tr><td class="german-cell">Das war eine tolle Erfahrung, obwohl es manchmal langweilig war.</td><td>That was a great experience, although it was sometimes boring.</td></tr>
+    <tr><td class="german-cell">Mein Bruder sagt, ich sollte BWL studieren, aber ich weiß, dass Medizin besser für mich ist.</td><td>My brother says I should study business, but I know medicine is better for me.</td></tr>
+    <tr><td class="german-cell">Ich liebe es, anderen zu helfen, und ich finde den menschlichen Körper faszinierend.</td><td>I love helping others and find the human body fascinating.</td></tr>
+    <tr><td class="german-cell">Meine Eltern unterstützen mich zum Glück sehr und glauben an mich.</td><td>Luckily my parents support me a lot and believe in me.</td></tr>
+    <tr><td class="german-cell">Wenn ich gute Noten bekomme, kann ich hoffentlich an einer guten Uni studieren.</td><td>If I get good grades, I can hopefully study at a good university.</td></tr>
+    <tr><td class="german-cell">Ich will auch Auslandserfahrung sammeln und vielleicht ein Jahr in der Schweiz verbringen.</td><td>I also want to gain international experience and maybe spend a year in Switzerland.</td></tr>
+    <tr><td class="german-cell">Dort gibt es viele gute Krankenhäuser und interessante Möglichkeiten.</td><td>There are many good hospitals and interesting opportunities there.</td></tr>
+    <tr><td class="german-cell">Ich hoffe, dass ich Erfolg haben werde – ich drücke mir die Daumen! (idiom)</td><td>I hope I will succeed – I press my thumbs! (idiom = good luck)</td></tr>
+  </table>
 </div>
+</section>
 
-<div class="subheading">🎉 Familie, Freunde und Feste (150 Wörter)</div>
-<div class="container theme1">
-  <div class="bullet-points theme1">
-    <strong>Bullet Points:</strong>
-    <ul>
-      <li>Ein Fest, das du kürzlich gefeiert hast</li>
-      <li>Warum Feste für dich wichtig sind</li>
-    </ul>
-  </div>
-  <div class="table-container" onclick="toggleVisibility(event)">
-    <table>
-      <tr><th>German</th><th>English (Literal)</th></tr>
-      <tr><td class="sentence">Letzten Dezember habe ich mit meiner Familie Weihnachten gefeiert.</td><td>Last December I celebrated Christmas with my family.</td></tr>
-      <tr><td class="sentence">Wir haben zusammen gegessen, Spiele gespielt und Geschenke ausgetauscht.</td><td>We ate together, played games and exchanged presents.</td></tr>
-      <tr><td class="sentence">Ich liebe Weihnachten, weil die Atmosphäre gemütlich und fröhlich ist.</td><td>I love Christmas because the atmosphere is cosy and cheerful.</td></tr>
-      <tr><td class="sentence">Es ist schön, Zeit mit der Familie zu verbringen.</td><td>It’s nice to spend time with family.</td></tr>
-      <tr><td class="sentence">Letztes Jahr sind auch meine Großeltern gekommen, und das hat mir sehr gefallen.</td><td>Last year my grandparents also came, and I really enjoyed that.</td></tr>
-      <tr><td class="sentence">Ich finde Feste wichtig, weil man Traditionen bewahrt und die Gemeinschaft stärkt.</td><td>I find celebrations important because they preserve traditions and strengthen community.</td></tr>
-      <tr><td class="sentence">Nächstes Jahr möchte ich meinen Geburtstag groß feiern und viele Freunde einladen.</td><td>Next year I want to have a big birthday party and invite lots of friends.</td></tr>
-      <tr><td class="sentence">Ich freue mich jetzt schon darauf – man soll schließlich die Feste feiern, wie sie fallen! (idiom)</td><td>I’m already looking forward to it – after all, one should celebrate occasions as they come! (idiom)</td></tr>
-    </table>
-  </div>
-</div>
 <script>
-function toggleVisibility(event) {
-  if(event.target.classList.contains('sentence')) {
-    event.target.classList.toggle('hidden');
-  }
-}
-function startTimer() {
-  let minutes = 24;
-  let seconds = 60;
-  clearInterval(window.pomoInterval);
-  window.pomoInterval = setInterval(() => {
-    seconds--;
-    if (seconds < 0) {
-      minutes--;
-      seconds = 59;
-    }
-    if (minutes < 0) {
-      clearInterval(window.pomoInterval);
-      document.getElementById("timer").textContent = "Break!";
-      return;
-    }
-    let m = minutes < 10 ? "0" + minutes : minutes;
-    let s = seconds < 10 ? "0" + seconds : seconds;
-    document.getElementById("timer").textContent = `${m}:${s}`;
-  }, 1000);
-}
-
-function resetTimer() {
-  clearInterval(window.pomoInterval);
-  document.getElementById("timer").textContent = "25:00";
-}
-function startTimer() {
-  let minutes = 24;
-  let seconds = 60;
-  let elapsedSeconds = 0;
-  clearInterval(window.pomoInterval);
-  window.pomoInterval = setInterval(() => {
-    seconds--;
-    elapsedSeconds++;
-    if (seconds < 0) {
-      minutes--;
-      seconds = 59;
-    }
-    if (minutes < 0) {
-      clearInterval(window.pomoInterval);
-      document.getElementById("timer").textContent = "Break!";
-      showAchievement("🎉 Completed 25 mins!");
-      return;
-    }
-    let m = minutes < 10 ? "0" + minutes : minutes;
-    let s = seconds < 10 ? "0" + seconds : seconds;
-    document.getElementById("timer").textContent = `${m}:${s}`;
-    if (elapsedSeconds === 300) showAchievement("✔️ 5 mins!");
-    if (elapsedSeconds === 600) showAchievement("✨ 10 mins!");
-    if (elapsedSeconds === 1200) showAchievement("🚀 20 mins!");
-  }, 1000);
-}
-
-function resetTimer() {
-  clearInterval(window.pomoInterval);
-  document.getElementById("timer").textContent = "25:00";
-  document.getElementById("achievements").innerHTML = "";
-}
-
-function showAchievement(text) {
-  const badge = document.createElement("span");
-  badge.textContent = text;
-  badge.style.marginLeft = "5px";
-  badge.style.transition = "opacity 0.5s";
-  badge.style.opacity = 0;
-  setTimeout(() => badge.style.opacity = 1, 100);
-  document.getElementById("achievements").appendChild(badge);
-}
-
-function toggleDarkMode() {
-  document.body.classList.toggle("dark");
-}
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.german-cell').forEach(cell => {
+      cell.style.cursor = "pointer";
+      cell.addEventListener("click", () => {
+        cell.style.color = cell.style.color === "transparent" ? "inherit" : "transparent";
+      });
+    });
+  });
 </script>
 
-<style>
-  .dark {
-    background-color: #121212;
-    color: #f1f1f1;
-  }
-  .dark .table-container,
-  .dark .bullet-points,
-  .dark .theme1,
-  .dark .theme2,
-  .dark .theme3 {
-    background-color: #1e1e1e !important;
-    color: #f1f1f1 !important;
-  }
-  .dark th {
-    background-color: #333 !important;
-    color: #f1f1f1 !important;
-  }
-</style>
-</script>
+  <script>
+    let pomoInterval;
+    let studyInterval;
+    let elapsedSeconds = 0;
+    let currentXP = parseInt(localStorage.getItem("xp")) || 0;
+    let totalStudySeconds = parseInt(localStorage.getItem("studySeconds")) || 0;
+    let lastUnlockedTitle = '';
 
+    const thresholds = [0, 64, 512, 1200, 2400, 4000, 6000, 8500, 11500, 15000, 20000, 25000, 30000, 36000, 44000, 54000, 66000];
+    const titleMap = {
+      1: "Novice",
+      2: "🎒 Apprentice",
+      3: "🧠 Thinker",
+      4: "📘 Scholar",
+      5: "🧬 Mastermind",
+      6: "🧙 Wizard",
+      7: "🦉 Sage",
+      8: "🏆 Champion",
+      9: "🌟 Legend",
+      10: "🧿 Mythical",
+      11: "👑 Grandmaster",
+      12: "🔭 Galileo",
+      13: "🧬 Darwin",
+      14: "🎨 Da Vinci",
+      15: "🧠 Immanuel Kant",
+      16: "🚀 Albert Einstein",
+      17: "✍️ Goethe"
+    };
+
+    function updateLevel(xp) {
+      let level = 1;
+      for (let i = 0; i < thresholds.length; i++) {
+        if (xp >= thresholds[i]) level = i + 1;
+      }
+      const title = titleMap[level] || "👑 Grandmaster";
+      const className = `title-rank title-${title.toLowerCase().replace(/[^a-z]/g, '')}`;
+      document.getElementById("level").textContent = level;
+      document.getElementById("titleDisplay").innerHTML = `Title: <span class='${className}'>${title}</span>`;
+      document.getElementById("progressFill").style.width = `${(xp / (thresholds[level] || (xp + 1000))) * 100}%`;
+      if (title !== lastUnlockedTitle) {
+        const popup = document.getElementById("titleUnlocked");
+        popup.textContent = `🔓 New Title Unlocked: ${title}`;
+        popup.style.display = "block";
+        setTimeout(() => { popup.style.display = "none"; }, 2500);
+        lastUnlockedTitle = title;
+      }
+    }
+
+    function updateStudyTimerDisplay() {
+      const mins = Math.floor(totalStudySeconds / 60).toString().padStart(2, '0');
+      const secs = (totalStudySeconds % 60).toString().padStart(2, '0');
+      document.getElementById("studyTimer").textContent = `${mins}:${secs}`;
+    }
+
+    function startTimer() {
+      clearInterval(pomoInterval);
+      clearInterval(studyInterval);
+
+      studyInterval = setInterval(() => {
+        totalStudySeconds++;
+        updateStudyTimerDisplay();
+        localStorage.setItem("studySeconds", totalStudySeconds);
+      }, 1000);
+
+      let minutes = 24;
+      let seconds = 60;
+      pomoInterval = setInterval(() => {
+        seconds--;
+        elapsedSeconds++;
+        if (seconds < 0) {
+          minutes--;
+          seconds = 59;
+        }
+        if (minutes < 0) {
+          clearInterval(pomoInterval);
+          return;
+        }
+        const xpGain = Math.floor(Math.sqrt(elapsedSeconds)) + 1;
+        currentXP += xpGain;
+        document.getElementById("xp").textContent = currentXP;
+        updateLevel(currentXP);
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(pomoInterval);
+      clearInterval(studyInterval);
+      elapsedSeconds = 0;
+      currentXP = 0;
+      totalStudySeconds = 0;
+      document.getElementById("xp").textContent = 0;
+      document.getElementById("studyTimer").textContent = "00:00";
+      updateLevel(0);
+    }
+
+    function toggleDashboard() {
+      const existing = document.getElementById("dashboardModal");
+      if (existing) {
+        existing.remove();
+        return;
+      }
+      const modal = document.createElement("div");
+      modal.id = "dashboardModal";
+      modal.style.position = "fixed";
+      modal.style.bottom = "20px";
+      modal.style.left = "20px";
+      modal.style.maxWidth = "300px";
+      modal.style.background = "rgba(255, 255, 255, 0.95)";
+      modal.style.border = "1px solid #ccc";
+      modal.style.borderRadius = "12px";
+      modal.style.padding = "15px";
+      modal.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+      modal.innerHTML = `
+        <h3>📊 Study Dashboard</h3>
+        <p>XP: ${currentXP}</p>
+        <p>Level: ${document.getElementById("level").textContent}</p>
+        <p>${document.getElementById("titleDisplay").innerHTML}</p>
+        <ul style="padding-left: 18px; font-size: 0.9em;">
+          <li>64 XP – 🎒 Apprentice</li>
+          <li>512 XP – 🧠 Thinker</li>
+          <li>1200 XP – 📘 Scholar</li>
+          <li>2400 XP – 🧬 Mastermind</li>
+          <li>4000 XP – 🧙 Wizard</li>
+          <li>6000 XP – 🦉 Sage</li>
+          <li>8500 XP – 🏆 Champion</li>
+          <li>11500 XP – 🌟 Legend</li>
+          <li>15000 XP – 🧿 Mythical</li>
+          <li>20000 XP – 👑 Grandmaster</li>
+          <li>25000 XP – 🔭 Galileo</li>
+          <li>30000 XP – 🧬 Darwin</li>
+          <li>36000 XP – 🎨 Da Vinci</li>
+          <li>44000 XP – 🧠 Immanuel Kant</li>
+          <li>54000 XP – 🚀 Albert Einstein</li>
+          <li>66000 XP – ✍️ Goethe</li>
+        </ul>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    document.getElementById("nightModeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("night-mode");
+      localStorage.setItem("nightMode", document.body.classList.contains("night-mode") ? "on" : "off");
+    });
+
+    if (localStorage.getItem("nightMode") === "on") {
+      document.body.classList.add("night-mode");
+    }
+
+    updateStudyTimerDisplay();
+    document.getElementById("xp").textContent = currentXP;
+    updateLevel(currentXP);
+  </script>
 </body>
 </html>
