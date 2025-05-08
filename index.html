@@ -104,7 +104,15 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-  </style>
+  
+    .title-sage, .title-champion, .title-legend, .title-mythical, .title-grandmaster, .title-galileo, .title-darwin, .title-davinci, .title-immanuelkant, .title-alberteinstein, .title-goethe {
+      background: linear-gradient(135deg, #ff6a00, #ee0979, #ff6a00);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulseGradient 6s ease infinite;
+      font-weight: bold;
+    }</style>
 </head>
 <body>
   <h1>📘 GCSE Writing Examination Higher</h1>
@@ -219,14 +227,48 @@
 </section>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.german-cell').forEach(cell => {
-      cell.style.cursor = "pointer";
-      cell.addEventListener("click", () => {
-        cell.style.color = cell.style.color === "transparent" ? "inherit" : "transparent";
-      });
+function showXPDrop(text) {
+  const drop = document.createElement("div");
+  drop.textContent = text;
+  drop.style.position = "fixed";
+  drop.style.top = "70px";
+  drop.style.right = "40px";
+  drop.style.background = "#4caf50";
+  drop.style.color = "white";
+  drop.style.padding = "6px 10px";
+  drop.style.borderRadius = "8px";
+  drop.style.fontSize = "0.9rem";
+  drop.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+  drop.style.zIndex = "9999";
+  drop.style.opacity = 1;
+  drop.style.transition = "opacity 1s ease-out, transform 1s ease-out";
+  drop.style.transform = "translateY(0px)";
+  document.body.appendChild(drop);
+  setTimeout(() => {
+    drop.style.opacity = 0;
+    drop.style.transform = "translateY(-20px)";
+  }, 50);
+  setTimeout(() => {
+    drop.remove();
+  }, 1000);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('.german-cell').forEach(cell => {
+    cell.style.cursor = "pointer";
+    cell.addEventListener("click", () => {
+      const wasVisible = cell.style.color !== "transparent";
+      cell.style.color = wasVisible ? "transparent" : "inherit";
+      if (wasVisible) {
+        showXPDrop("+100 XP");
+        currentXP += 100;
+        document.getElementById("xp").textContent = currentXP;
+        updateLevel(currentXP);
+        localStorage.setItem("xp", currentXP);
+      }
     });
   });
+});
 </script>
 
   <script>
