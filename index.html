@@ -1,435 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GCSE Flashcards Site</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Momentum Radar</title>
+  <meta name="description" content="Time series momentum stock screener based on Moskowitz et al. (2012)" />
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet" />
+  <script>
+    tailwind.config = { theme: { extend: { colors: { brand: '#3b82f6' } } } }
+  </script>
   <style>
-    body {
-      font-family: Helvetica, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #f7f9fb;
-    }
-    body.night-mode {
-      background: #111;
-      color: #f2f2f2;
-    }
-    .flashcard {
-      margin: 25px 0;
-      padding: 20px;
-      border-radius: 12px;
-      background-color: #ffffff;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 15px;
-      background-color: #ffe9cc;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    th {
-      background-color: #d8eaff;
-      color: #333;
-      font-weight: 600;
-      text-align: left;
-      padding: 10px;
-    }
-    td {
-      padding: 10px;
-      border-top: 1px solid #f0f0f0;
-      transition: background-color 0.3s;
-    }
-    tr:hover td {
-      background-color: #f0f8ff;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2.1rem;
-      margin-top: 10px;
-      background: linear-gradient(120deg,#ffb347,#ffd194,#ffc78a);
-      background-size: 200% 200%;
-      animation: pulseGradient 4s ease infinite;
-      -webkit-background-clip: text;
-      color: transparent;
-      font-weight: bold;
-    }
-    #top-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    #dashboardBtn {
-      background: #556cd6;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 6px 12px;
-      font-size: 0.9em;
-      cursor: pointer;
-    }
-    #progressBar {
-      width: 100%;
-      background: #eee;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-    #progressFill {
-      height: 12px;
-      width: 0%;
-      background: linear-gradient(to right, #42a5f5, #478ed1);
-      transition: width 0.5s ease-in-out;
-    }
-    #titleUnlocked {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.85);
-      color: #fff;
-      padding: 8px 14px;
-      font-size: 0.95em;
-      border-radius: 8px;
-      display: none;
-      z-index: 9999;
-    }
-    @keyframes pulseGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-  
-    .title-sage, .title-champion, .title-legend, .title-mythical, .title-grandmaster, .title-galileo, .title-darwin, .title-davinci, .title-immanuelkant, .title-alberteinstein, .title-goethe {
-      background: linear-gradient(135deg, #ff6a00, #ee0979, #ff6a00);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: pulseGradient 6s ease infinite;
-      font-weight: bold;
-    }</style>
+    body { -webkit-font-smoothing: antialiased; }
+    .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+    @keyframes loading { to { background-position: 200% 0; } }
+  </style>
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="#" />
+  <script>
+    // Minimal manifest for PWA installability
+    const manifest = {
+      name: "Momentum Radar",
+      short_name: "Momentum",
+      start_url: "/",
+      display: "standalone",
+      background_color: "#ffffff",
+      theme_color: "#3b82f6",
+      icons: [{
+        src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📈</text></svg>",
+        sizes: "192x192",
+        type: "image/svg+xml"
+      }]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    document.querySelector('link[rel="manifest"]').href = url;
+  </script>
 </head>
-<body>
-  <h1>📘 GCSE Writing Examination Higher</h1>
-  <button id="nightModeToggle" style="position:fixed;top:10px;left:10px;background:#444;color:#fff;padding:6px 10px;border:none;border-radius:6px;cursor:pointer;z-index:9999;">🌙</button>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+  <div class="max-w-md mx-auto p-4">
+    <h1 class="text-2xl font-bold text-center mb-2">Momentum Radar</h1>
+    <p class="text-sm text-gray-600 text-center mb-4">
+      Time series momentum screener (Moskowitz et al., 2012)
+    </p>
 
-  <div id="top-bar">
-    <div>
-      ⏱ Time Studied: <span id="studyTimer">00:00</span>
-    </div>
-    <div>
-      <button onclick="startTimer()">▶️ Start</button>
-      <button onclick="resetTimer()">⏹️ Reset</button>
-      <button id="dashboardBtn" onclick="toggleDashboard()">📊 Dashboard</button>
-    </div>
-    <div>
-      🧠 XP: <span id="xp">0</span> | Level: <span id="level">1</span><br>
-      <span id="titleDisplay">Title: Novice</span>
-      <div id="progressBar"><div id="progressFill"></div></div>
-    </div>
+    <button id="scanBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded mb-4 transition">
+      Scan Now
+    </button>
+
+    <div id="results" class="space-y-3 mb-6"></div>
+
+    <p class="text-xs text-gray-500 text-center">
+      Based on academic time series momentum. Not financial advice.
+    </p>
   </div>
-
-  <div id="titleUnlocked">🔓 New Title Unlocked!</div>
-
-  <section id="flashcards">
-  <div class="flashcard">
-    <h3>📱 Soziale Netzwerke (90 Wörter)</h3>
-    <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
-      <li>📱 Wie oft benutzt du soziale Netzwerke?</li>
-      <li>🧠 Deine Meinung über soziale Medien</li>
-      <li>🕒 Was du letzte Woche online gemacht hast</li>
-      <li>🔮 Was du morgen machen wirst</li>
-    </ul>
-    <table>
-      <tr><th>German</th><th>English (Literal)</th></tr>
-      <tr><td class="german-cell">Ich benutze soziale Netzwerke jeden Tag, meistens Instagram und TikTok.</td><td>I use social networks every day, mostly Instagram and TikTok.</td></tr>
-      <tr><td class="german-cell">Ich finde Instagram besonders nützlich, weil man viele interessante Fotos sehen kann.</td><td>I find Instagram especially useful because one can see many interesting photos.</td></tr>
-      <tr><td class="german-cell">Ich denke, dass soziale Medien gut sind, um mit Freunden in Kontakt zu bleiben.</td><td>I think that social media are good for staying in contact with friends.</td></tr>
-      <tr><td class="german-cell">Letzte Woche habe ich ein Video gepostet und mit Freunden über ein Spiel diskutiert.</td><td>Last week I posted a video and discussed a game with friends.</td></tr>
-      <tr><td class="german-cell">Das hat Spaß gemacht, obwohl mein WLAN ziemlich schlecht war.</td><td>That was fun, although my WiFi was quite bad.</td></tr>
-      <tr><td class="german-cell">Morgen will ich ein neues Foto hochladen und meinem besten Freund einen Kommentar schreiben.</td><td>Tomorrow I want to upload a photo and write a comment to my best friend.</td></tr>
-      <tr><td class="german-cell">Manchmal nerven mich soziale Netzwerke, weil Leute nur perfekte Bilder zeigen.</td><td>Sometimes social networks annoy me because people only show perfect pictures.</td></tr>
-      <tr><td class="german-cell">Es ist nicht mein Ding, wenn alles künstlich wirkt. (idiom)</td><td>It is not my thing when everything seems fake. (idiom)</td></tr>
-    </table>
-  </div>
-<div class="flashcard">
-  <h3>🎉 Ein Fest (150 Wörter)</h3>
-  <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
-    <li>🕯️ Ein Fest, das du kürzlich gefeiert hast</li>
-    <li>🎈 Warum Feste für dich wichtig sind</li>
-  </ul>
-  <table>
-    <tr><th>German</th><th>English (Literal)</th></tr>
-    <tr><td class="german-cell">Letzten Dezember habe ich mit meiner Familie Weihnachten gefeiert.</td><td>Last December I celebrated Christmas with my family.</td></tr>
-    <tr><td class="german-cell">Wir haben ein großes Abendessen vorbereitet und den Tannenbaum geschmückt.</td><td>We prepared a big dinner and decorated the Christmas tree.</td></tr>
-    <tr><td class="german-cell">Es gab viele Lichter, Musik und leckeres Essen.</td><td>There were many lights, music and delicious food.</td></tr>
-    <tr><td class="german-cell">Meine Geschwister haben ein Weihnachtslied gesungen und Geschenke verteilt.</td><td>My siblings sang a Christmas song and handed out presents.</td></tr>
-    <tr><td class="german-cell">Ich habe ein Buch bekommen, das ich schon lange lesen wollte.</td><td>I got a book I had wanted to read for a long time.</td></tr>
-    <tr><td class="german-cell">Es war ein wunderschöner Abend mit viel Lachen und Freude.</td><td>It was a wonderful evening with lots of laughter and joy.</td></tr>
-    <tr><td class="german-cell">Solche Momente sind für mich sehr bedeutungsvoll.</td><td>Such moments are very meaningful for me.</td></tr>
-    <tr><td class="german-cell">Ich finde Feste wichtig, weil sie uns mit unseren Wurzeln verbinden.</td><td>I find festivals important because they connect us to our roots.</td></tr>
-    <tr><td class="german-cell">Außerdem bringen sie Familien und Freunde näher zusammen.</td><td>They also bring families and friends closer together.</td></tr>
-    <tr><td class="german-cell">Traditionen geben uns Stabilität und machen das Leben bunter.</td><td>Traditions give us stability and make life more colourful.</td></tr>
-    <tr><td class="german-cell">Im nächsten Jahr möchte ich ein neues Fest entdecken, vielleicht Karneval in Köln.</td><td>Next year I want to experience a new festival, maybe carnival in Cologne.</td></tr>
-    <tr><td class="german-cell">Ich interessiere mich sehr für verschiedene Kulturen und Bräuche.</td><td>I'm very interested in different cultures and customs.</td></tr>
-    <tr><td class="german-cell">Es macht Spaß, Neues zu lernen und zu feiern.</td><td>It's fun to learn and celebrate new things.</td></tr>
-    <tr><td class="german-cell">Man soll schließlich die Feste feiern, wie sie fallen! (idiom)</td><td>You should celebrate festivals as they come! (idiom)</td></tr>
-  </table>
-</div>
-
-<div class="flashcard">
-  <h3>✈️ Urlaub (90 Wörter)</h3>
-  <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
-    <li>🌞 Wohin du normalerweise fährst</li>
-    <li>😎 Warum Urlaub wichtig ist</li>
-    <li>🚗 Wohin du letztes Jahr gefahren bist</li>
-    <li>🗺️ Wohin du nächstes Jahr fahren wirst</li>
-  </ul>
-  <table>
-    <tr><th>German</th><th>English (Literal)</th></tr>
-    <tr><td class="german-cell">Normalerweise fahre ich im Sommer nach Spanien, weil es dort heiß und sonnig ist.</td><td>Normally I go to Spain in summer because it's hot and sunny there.</td></tr>
-    <tr><td class="german-cell">Ich finde Urlaub wichtig, um mich zu entspannen und Stress zu vergessen.</td><td>I find holidays important to relax and forget stress.</td></tr>
-    <tr><td class="german-cell">Letztes Jahr bin ich mit meiner Familie nach Frankreich gefahren, und wir haben Paris besucht.</td><td>Last year I went to France with my family, and we visited Paris.</td></tr>
-    <tr><td class="german-cell">Das war super, obwohl die Reise etwas lang war.</td><td>That was great although the journey was a bit long.</td></tr>
-    <tr><td class="german-cell">Nächstes Jahr möchte ich nach Italien reisen, um die Sehenswürdigkeiten in Rom zu sehen.</td><td>Next year I want to travel to Italy to see the sights in Rome.</td></tr>
-    <tr><td class="german-cell">Reisen erweitert den Horizont – das finde ich toll, denn Reisen bildet. (idiom)</td><td>Travelling broadens the mind – I think that's great because travelling educates. (idiom)</td></tr>
-  </table>
-</div>
-
-<div class="flashcard">
-  <h3>💼 Meine Zukunftspläne (150 Wörter)</h3>
-  <ul style="margin-left:-20px;margin-bottom:10px;list-style:none;font-style:italic;">
-    <li>🎓 Was du nach der Schule machen wirst</li>
-    <li>🏥 Was du später beruflich machen möchtest</li>
-  </ul>
-  <table>
-    <tr><th>German</th><th>English (Literal)</th></tr>
-    <tr><td class="german-cell">Ich habe viele Pläne für die Zukunft, aber zuerst will ich mein Abitur schaffen.</td><td>I have many plans for the future, but first I want to pass my A-levels.</td></tr>
-    <tr><td class="german-cell">Ich lerne fleißig, besonders Mathe und Biologie, weil ich Medizin studieren möchte.</td><td>I study hard, especially maths and biology, because I want to study medicine.</td></tr>
-    <tr><td class="german-cell">Danach will ich an die Uni gehen und später im Krankenhaus arbeiten.</td><td>After that I want to go to university and later work in a hospital.</td></tr>
-    <tr><td class="german-cell">Ich interessiere mich besonders für Kinderheilkunde, weil ich gern mit Kindern arbeite.</td><td>I'm especially interested in paediatrics because I enjoy working with children.</td></tr>
-    <tr><td class="german-cell">Letztes Jahr habe ich ein Praktikum gemacht – ich habe bei einem Zahnarzt geholfen.</td><td>Last year I did work experience – I helped at a dentist’s.</td></tr>
-    <tr><td class="german-cell">Das war eine tolle Erfahrung, obwohl es manchmal langweilig war.</td><td>That was a great experience, although it was sometimes boring.</td></tr>
-    <tr><td class="german-cell">Mein Bruder sagt, ich sollte BWL studieren, aber ich weiß, dass Medizin besser für mich ist.</td><td>My brother says I should study business, but I know medicine is better for me.</td></tr>
-    <tr><td class="german-cell">Ich liebe es, anderen zu helfen, und ich finde den menschlichen Körper faszinierend.</td><td>I love helping others and find the human body fascinating.</td></tr>
-    <tr><td class="german-cell">Meine Eltern unterstützen mich zum Glück sehr und glauben an mich.</td><td>Luckily my parents support me a lot and believe in me.</td></tr>
-    <tr><td class="german-cell">Wenn ich gute Noten bekomme, kann ich hoffentlich an einer guten Uni studieren.</td><td>If I get good grades, I can hopefully study at a good university.</td></tr>
-    <tr><td class="german-cell">Ich will auch Auslandserfahrung sammeln und vielleicht ein Jahr in der Schweiz verbringen.</td><td>I also want to gain international experience and maybe spend a year in Switzerland.</td></tr>
-    <tr><td class="german-cell">Dort gibt es viele gute Krankenhäuser und interessante Möglichkeiten.</td><td>There are many good hospitals and interesting opportunities there.</td></tr>
-    <tr><td class="german-cell">Ich hoffe, dass ich Erfolg haben werde – ich drücke mir die Daumen! (idiom)</td><td>I hope I will succeed – I press my thumbs! (idiom = good luck)</td></tr>
-  </table>
-</div>
-</section>
-
-<script>
-function showXPDrop(text) {
-  const drop = document.createElement("div");
-  drop.textContent = text;
-  drop.style.position = "fixed";
-  drop.style.top = "70px";
-  drop.style.right = "40px";
-  drop.style.background = "#4caf50";
-  drop.style.color = "white";
-  drop.style.padding = "6px 10px";
-  drop.style.borderRadius = "8px";
-  drop.style.fontSize = "0.9rem";
-  drop.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
-  drop.style.zIndex = "9999";
-  drop.style.opacity = 1;
-  drop.style.transition = "opacity 1s ease-out, transform 1s ease-out";
-  drop.style.transform = "translateY(0px)";
-  document.body.appendChild(drop);
-  setTimeout(() => {
-    drop.style.opacity = 0;
-    drop.style.transform = "translateY(-20px)";
-  }, 50);
-  setTimeout(() => {
-    drop.remove();
-  }, 1000);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll('.german-cell').forEach(cell => {
-    cell.style.cursor = "pointer";
-    cell.addEventListener("click", () => {
-      const wasVisible = cell.style.color !== "transparent";
-      cell.style.color = wasVisible ? "transparent" : "inherit";
-      if (wasVisible) {
-        showXPDrop("+100 XP");
-        currentXP += 100;
-        document.getElementById("xp").textContent = currentXP;
-        updateLevel(currentXP);
-        localStorage.setItem("xp", currentXP);
-      }
-    });
-  });
-});
-</script>
 
   <script>
-    let pomoInterval;
-    let studyInterval;
-    let elapsedSeconds = 0;
-    let currentXP = parseInt(localStorage.getItem("xp")) || 0;
-    let totalStudySeconds = parseInt(localStorage.getItem("studySeconds")) || 0;
-    let lastUnlockedTitle = '';
+    // List of liquid tickers (S&P 500 + major ETFs)
+    const TICKERS = [
+      'AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'BRK.B', 'JPM', 'V',
+      'UNH', 'HD', 'PG', 'MA', 'XOM', 'CVX', 'LLY', 'AVGO', 'COST', 'MRK',
+      'SPY', 'QQQ', 'IWM', 'DIA', 'XLK', 'XLF', 'XLE', 'XLV', 'SMH', 'ARKK'
+    ];
 
-    const thresholds = [0, 64, 512, 1200, 2400, 4000, 6000, 8500, 11500, 15000, 20000, 25000, 30000, 36000, 44000, 54000, 66000];
-    const titleMap = {
-      1: "Novice",
-      2: "🎒 Apprentice",
-      3: "🧠 Thinker",
-      4: "📘 Scholar",
-      5: "🧬 Mastermind",
-      6: "🧙 Wizard",
-      7: "🦉 Sage",
-      8: "🏆 Champion",
-      9: "🌟 Legend",
-      10: "🧿 Mythical",
-      11: "👑 Grandmaster",
-      12: "🔭 Galileo",
-      13: "🧬 Darwin",
-      14: "🎨 Da Vinci",
-      15: "🧠 Immanuel Kant",
-      16: "🚀 Albert Einstein",
-      17: "✍️ Goethe"
-    };
+    // CORS proxy (public, no key needed)
+    const PROXY = 'https://corsproxy.io/?';
 
-    function updateLevel(xp) {
-      let level = 1;
-      for (let i = 0; i < thresholds.length; i++) {
-        if (xp >= thresholds[i]) level = i + 1;
+    // EWMA volatility (60-day center of mass)
+    function ewmaVolatility(prices, lambda = 0.983) {
+      if (prices.length < 2) return 1;
+      const returns = [];
+      for (let i = 1; i < prices.length; i++) {
+        returns.push((prices[i] - prices[i - 1]) / prices[i - 1]);
       }
-      const title = titleMap[level] || "👑 Grandmaster";
-      const className = `title-rank title-${title.toLowerCase().replace(/[^a-z]/g, '')}`;
-      document.getElementById("level").textContent = level;
-      document.getElementById("titleDisplay").innerHTML = `Title: <span class='${className}'>${title}</span>`;
-      document.getElementById("progressFill").style.width = `${(xp / (thresholds[level] || (xp + 1000))) * 100}%`;
-      if (title !== lastUnlockedTitle) {
-        const popup = document.getElementById("titleUnlocked");
-        popup.textContent = `🔓 New Title Unlocked: ${title}`;
-        popup.style.display = "block";
-        setTimeout(() => { popup.style.display = "none"; }, 2500);
-        lastUnlockedTitle = title;
+      let variance = 0;
+      let weightSum = 0;
+      for (let i = returns.length - 1; i >= 0; i--) {
+        const weight = Math.pow(lambda, returns.length - 1 - i);
+        variance += weight * Math.pow(returns[i], 2);
+        weightSum += weight;
+      }
+      return Math.sqrt(variance / weightSum) * Math.sqrt(252); // annualized
+    }
+
+    // Fetch 252+60 days of price history
+    async function fetchPrices(ticker) {
+      const url = `${PROXY}https://query1.finance.yahoo.com/v7/finance/download/${ticker}?period1=0&period2=9999999999&interval=1d&events=history`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network error');
+        const text = await response.text();
+        const lines = text.trim().split('\n').slice(1);
+        const prices = lines.map(line => parseFloat(line.split(',')[4])).filter(p => !isNaN(p));
+        return prices.length >= 300 ? prices.slice(-312) : null; // keep last 312 days
+      } catch (e) {
+        console.warn(`Failed to fetch ${ticker}:`, e);
+        return null;
       }
     }
 
-    function updateStudyTimerDisplay() {
-      const mins = Math.floor(totalStudySeconds / 60).toString().padStart(2, '0');
-      const secs = (totalStudySeconds % 60).toString().padStart(2, '0');
-      document.getElementById("studyTimer").textContent = `${mins}:${secs}`;
+    // Calculate momentum signal
+    function calculateSignal(prices) {
+      if (!prices || prices.length < 252) return null;
+      const p0 = prices[prices.length - 252];
+      const p1 = prices[prices.length - 1];
+      const ret12M = (p1 / p0) - 1;
+      if (ret12M <= 0) return null; // only positive trends (per paper)
+
+      const vol60D = ewmaVolatility(prices.slice(-61)); // last 60 returns → 61 prices
+      const score = ret12M / (vol60D || 1);
+      return {
+        ticker,
+        ret12M: (ret12M * 100).toFixed(1),
+        vol60D: (vol60D * 100).toFixed(1),
+        score: score
+      };
     }
 
-    function startTimer() {
-      clearInterval(pomoInterval);
-      clearInterval(studyInterval);
-
-      studyInterval = setInterval(() => {
-        totalStudySeconds++;
-        updateStudyTimerDisplay();
-        localStorage.setItem("studySeconds", totalStudySeconds);
-      }, 1000);
-
-      let minutes = 24;
-      let seconds = 60;
-      pomoInterval = setInterval(() => {
-        seconds--;
-        elapsedSeconds++;
-        if (seconds < 0) {
-          minutes--;
-          seconds = 59;
-        }
-        if (minutes < 0) {
-          clearInterval(pomoInterval);
-          return;
-        }
-        const xpGain = Math.floor(Math.sqrt(elapsedSeconds)) + 1;
-        currentXP += xpGain;
-        document.getElementById("xp").textContent = currentXP;
-        updateLevel(currentXP);
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(pomoInterval);
-      clearInterval(studyInterval);
-      elapsedSeconds = 0;
-      currentXP = 0;
-      totalStudySeconds = 0;
-      document.getElementById("xp").textContent = 0;
-      document.getElementById("studyTimer").textContent = "00:00";
-      updateLevel(0);
-    }
-
-    function toggleDashboard() {
-      const existing = document.getElementById("dashboardModal");
-      if (existing) {
-        existing.remove();
+    // Render results
+    function renderResults(results) {
+      const container = document.getElementById('results');
+      if (results.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-500">No strong momentum signals found.</p>';
         return;
       }
-      const modal = document.createElement("div");
-      modal.id = "dashboardModal";
-      modal.style.position = "fixed";
-      modal.style.bottom = "20px";
-      modal.style.left = "20px";
-      modal.style.maxWidth = "300px";
-      modal.style.background = "rgba(255, 255, 255, 0.95)";
-      modal.style.border = "1px solid #ccc";
-      modal.style.borderRadius = "12px";
-      modal.style.padding = "15px";
-      modal.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
-      modal.innerHTML = `
-        <button id='closeDashboard' style="position:absolute;top:5px;right:10px;border:none;background:none;font-size:18px;cursor:pointer;">✖️</button>
-        <h3>📊 Study Dashboard</h3>
-        <p>XP: ${currentXP}</p>
-        <p>Level: ${document.getElementById("level").textContent}</p>
-        <p>${document.getElementById("titleDisplay").innerHTML}</p>
-        <ul style="padding-left: 18px; font-size: 0.9em;">
-          <li>64 XP – 🎒 Apprentice</li>
-          <li>512 XP – 🧠 Thinker</li>
-          <li>1200 XP – 📘 Scholar</li>
-          <li>2400 XP – 🧬 Mastermind</li>
-          <li>4000 XP – 🧙 Wizard</li>
-          <li>6000 XP – 🦉 Sage</li>
-          <li>8500 XP – 🏆 Champion</li>
-          <li>11500 XP – 🌟 Legend</li>
-          <li>15000 XP – 🧿 Mythical</li>
-          <li>20000 XP – 👑 Grandmaster</li>
-          <li>25000 XP – 🔭 Galileo</li>
-          <li>30000 XP – 🧬 Darwin</li>
-          <li>36000 XP – 🎨 Da Vinci</li>
-          <li>44000 XP – 🧠 Immanuel Kant</li>
-          <li>54000 XP – 🚀 Albert Einstein</li>
-          <li>66000 XP – ✍️ Goethe</li>
-        </ul>
-      `;
-      document.body.appendChild(modal);
-      document.getElementById("closeDashboard").addEventListener("click", () => modal.remove());
-      document.addEventListener("click", function outsideClick(e) {
-        if (modal && !modal.contains(e.target) && e.target.id !== 'dashboardBtn') {
-          modal.remove();
-          document.removeEventListener("click", outsideClick);
-        }
-      });
+      const html = results.map(r => `
+        <a href="https://finance.yahoo.com/quote/${r.ticker}" target="_blank" rel="noopener"
+           class="block p-3 bg-white rounded-lg shadow border border-gray-200 hover:bg-blue-50 transition">
+          <div class="font-bold text-lg">${r.ticker}</div>
+          <div class="text-sm text-gray-600">
+            <span class="text-green-600">+${r.ret12M}%</span> (12M) • Vol: ${r.vol60D}% • Score: ${r.score.toFixed(2)}
+          </div>
+        </a>
+      `).join('');
+      container.innerHTML = html;
     }
 
-    document.getElementById("nightModeToggle").addEventListener("click", () => {
-      document.body.classList.toggle("night-mode");
-      localStorage.setItem("nightMode", document.body.classList.contains("night-mode") ? "on" : "off");
+    // Main scan function
+    async function scan() {
+      const btn = document.getElementById('scanBtn');
+      btn.disabled = true;
+      btn.textContent = 'Scanning...';
+      document.getElementById('results').innerHTML = 
+        '<div class="skeleton h-16 rounded-lg"></div><div class="skeleton h-16 rounded-lg mt-2"></div>';
+
+      const signals = [];
+      for (const ticker of TICKERS) {
+        const prices = await fetchPrices(ticker);
+        const signal = calculateSignal(prices);
+        if (signal) signals.push(signal);
+      }
+
+      // Sort by momentum score (desc)
+      signals.sort((a, b) => b.score - a.score);
+      renderResults(signals.slice(0, 10));
+
+      // Cache to localStorage
+      localStorage.setItem('momentumResults', JSON.stringify(signals));
+      localStorage.setItem('lastScan', Date.now());
+
+      btn.disabled = false;
+      btn.textContent = 'Scan Again';
+    }
+
+    // Load cached results on start
+    window.addEventListener('load', () => {
+      const cached = localStorage.getItem('momentumResults');
+      const lastScan = localStorage.getItem('lastScan');
+      if (cached && lastScan && (Date.now() - parseInt(lastScan)) < 24 * 60 * 60 * 1000) {
+        renderResults(JSON.parse(cached));
+      } else {
+        scan();
+      }
     });
 
-    if (localStorage.getItem("nightMode") === "on") {
-      document.body.classList.add("night-mode");
-    }
-
-    updateStudyTimerDisplay();
-    document.getElementById("xp").textContent = currentXP;
-    updateLevel(currentXP);
+    // Button handler
+    document.getElementById('scanBtn').addEventListener('click', scan);
   </script>
 </body>
 </html>
