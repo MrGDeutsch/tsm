@@ -37,11 +37,12 @@
       Time series momentum (Moskowitz et al., 2012)
     </p>
 
-    <input type="text" id="apiKey" placeholder="Enter Finnhub API key" class="w-full p-2 border rounded mb-2 text-sm" />
+    <input type="text" id="apiKey" placeholder="Enter Finnhub API key (free at finnhub.io)" class="w-full p-2 border rounded mb-2 text-sm" />
     <button id="scanBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded mb-4 transition">
       Scan Now
     </button>
 
+    <div id="status" class="text-xs text-gray-500 text-center mb-2"></div>
     <div id="results" class="space-y-3 mb-6"></div>
     <p class="text-xs text-gray-500 text-center">
       Based on academic time series momentum. Not financial advice.
@@ -49,10 +50,28 @@
   </div>
 
   <script>
-    // Updated ticker list (strong 12M performers as of June 2024)
+    // Expanded ticker list: US stocks + ETFs from Trading212 & Revolut (200+)
     const TICKERS = [
-      'AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'LLY', 'SMCI', 'ARM',
-      'MSTR', 'AVGO', 'COST', 'UNH', 'SPY', 'QQQ', 'IWM', 'XLK', 'SOXX', 'IBIT'
+      // Mega/Large Cap
+      'AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'GOOG', 'META', 'TSLA', 'BRK.B', 'UNH', 'LLY', 'JNJ', 'V', 'PG', 'MA', 'AVGO', 'HD', 'MRK', 'CVX', 'ABBV',
+      'PEP', 'COST', 'KO', 'WMT', 'DIS', 'ADBE', 'CRM', 'NFLX', 'AMD', 'INTC', 'QCOM', 'TXN', 'IBM', 'ORCL', 'CSCO', 'PYPL', 'SBUX', 'BA', 'CAT', 'MMM',
+      
+      // Mid/Small Cap (high momentum potential)
+      'SMCI', 'ARM', 'MSTR', 'COIN', 'PLTR', 'RIVN', 'LCID', 'SNAP', 'PINS', 'ROKU', 'DASH', 'UBER', 'LYFT', 'ABNB', 'SHOP', 'ETSY', 'TTD', 'ZS', 'CRWD',
+      'NET', 'DDOG', 'OKTA', 'SNOW', 'MDB', 'TEAM', 'NOW', 'WDAY', 'ZM', 'DOCU', 'FSLY', 'PATH', 'GTLB', 'CFLT', 'AFRM', 'UPST', 'SOFI', 'HOOD', 'OPEN',
+      'RBLX', 'EXPE', 'MTCH', 'IAC', 'ANGI', 'CHTR', 'TMUS', 'VZ', 'T', 'LUMN', 'DKNG', 'PENN', 'MGM', 'WYNN', 'MAR', 'HLT', 'BKNG', 'ABNB', 'CCL', 'RCL',
+      
+      // ETFs (broad, sector, thematic)
+      'SPY', 'QQQ', 'IWM', 'DIA', 'VTI', 'VOO', 'ARKK', 'XLK', 'XLF', 'XLV', 'XLE', 'XLY', 'XLP', 'XLI', 'XLB', 'XLRE', 'XLU', 'XLC', 'SMH', 'SOXX', 'IBB',
+      'KWEB', 'FXI', 'EEM', 'VGK', 'EWJ', 'INDA', 'VNQ', 'GLD', 'SLV', 'USO', 'UNG', 'HYG', 'LQD', 'TLT', 'SHY', 'IEF', 'AGG', 'BND', 'VEA', 'VWO', 'IJR', 'IJH',
+      'MTUM', 'QUAL', 'VLUE', 'SIZE', 'USMV', 'SPHD', 'JEPI', 'SCHD', 'VIG', 'DGRO', 'NOBL', 'QYLD', 'XYLD', 'DIVO', 'HDV', 'SPYD', 'IDV', 'VYM',
+      
+      // Crypto & Micro (Revolut/Trading212 favorites)
+      'MSTR', 'COIN', 'IBIT', 'FBTC', 'ARKB', 'BITO',
+      
+      // International ADRs (available on Revolut)
+      'ASML', 'SAP', 'NVO', 'NOVN.SW', 'NESN.SW', 'HSBC', 'UL', 'UN', 'BUD', 'TM', 'SONY', 'HMC', 'NSRGY', 'AZN', 'RHHBY', 'BCH', 'SID', 'VALE', 'PBR',
+      'BBL', 'GSK', 'BP', 'TOT', 'ENB', 'CVE', 'SU', 'IMO', 'CNQ', 'ARCC', 'MAIN', 'O', 'STAG', 'GOOD', 'PSEC', 'BX', 'KKR', 'APO', 'CG', 'IVZ', 'BLK', 'TROW'
     ];
 
     // EWMA volatility (60-day)
@@ -72,7 +91,6 @@
       return Math.sqrt(variance / weightSum) * Math.sqrt(252);
     }
 
-    // Fetch 252+ days of daily close prices from Finnhub
     async function fetchPrices(ticker, apiKey) {
       const from = Math.floor((Date.now() - 320 * 24 * 60 * 60 * 1000) / 1000);
       const to = Math.floor(Date.now() / 1000);
@@ -81,20 +99,18 @@
         const res = await fetch(url);
         const data = await res.json();
         if (data.s !== 'ok' || !data.c || data.c.length < 252) return null;
-        return data.c; // closing prices
+        return data.c;
       } catch (e) {
         console.warn(`Failed ${ticker}:`, e);
         return null;
       }
     }
 
-    function calculateSignal(prices) {
+    function calculateSignal(prices, ticker) {
       if (!prices || prices.length < 252) return null;
       const p0 = prices[prices.length - 252];
       const p1 = prices[prices.length - 1];
       const ret12M = (p1 / p0) - 1;
-      if (ret12M <= 0) return null; // ONLY positive trends (per paper)
-
       const vol60D = ewmaVolatility(prices.slice(-61));
       return {
         ticker,
@@ -104,18 +120,21 @@
       };
     }
 
-    function renderResults(results) {
+    function renderResults(results, fallback = false) {
       const container = document.getElementById('results');
       if (results.length === 0) {
-        container.innerHTML = '<p class="text-center text-gray-500">No strong momentum signals found.<br>Try again with more tickers or check your API key.</p>';
+        container.innerHTML = '<p class="text-center text-gray-500">No data available. Check API key or network.</p>';
         return;
       }
-      const html = results.map(r => `
+      const header = fallback 
+        ? '<div class="text-center text-orange-600 text-sm mb-2">⚠️ No positive momentum. Showing top performers (may be negative).</div>'
+        : '';
+      const html = header + results.map(r => `
         <a href="https://finance.yahoo.com/quote/${r.ticker}" target="_blank" rel="noopener"
-           class="block p-3 bg-white rounded-lg shadow border border-gray-200 hover:bg-blue-50">
+           class="block p-3 bg-white rounded-lg shadow border ${r.ret12M >= 0 ? 'border-green-200' : 'border-red-200'} hover:bg-blue-50">
           <div class="font-bold text-lg">${r.ticker}</div>
-          <div class="text-sm text-gray-600">
-            <span class="text-green-600">+${r.ret12M}%</span> (12M) • Vol: ${r.vol60D}% • Score: ${r.score.toFixed(2)}
+          <div class="text-sm">
+            <span class="${r.ret12M >= 0 ? 'text-green-600' : 'text-red-600'}">${r.ret12M >= 0 ? '+' : ''}${r.ret12M}%</span> (12M) • Vol: ${r.vol60D}% • Score: ${r.score.toFixed(2)}
           </div>
         </a>
       `).join('');
@@ -125,31 +144,45 @@
     async function scan() {
       const apiKey = document.getElementById('apiKey').value.trim();
       if (!apiKey) {
-        alert('Please enter your free Finnhub API key');
+        alert('Please enter your free Finnhub API key (get one at finnhub.io)');
         return;
       }
 
       const btn = document.getElementById('scanBtn');
+      const statusEl = document.getElementById('status');
       btn.disabled = true;
       btn.textContent = 'Scanning...';
+      statusEl.textContent = 'Fetching data...';
       document.getElementById('results').innerHTML = 
         '<div class="skeleton h-16 rounded-lg"></div><div class="skeleton h-16 rounded-lg mt-2"></div>';
 
       const signals = [];
+      let count = 0;
       for (const ticker of TICKERS) {
+        count++;
+        statusEl.textContent = `Processing ${count}/${TICKERS.length}: ${ticker}`;
         const prices = await fetchPrices(ticker, apiKey);
-        const signal = calculateSignal(prices);
+        const signal = calculateSignal(prices, ticker);
         if (signal) signals.push(signal);
+        // Optional: add small delay to avoid rate limits
+        await new Promise(r => setTimeout(r, 10));
       }
 
-      signals.sort((a, b) => b.score - a.score);
-      renderResults(signals.slice(0, 10));
+      // Filter: only positive 12M returns (academic TSM rule)
+      const longSignals = signals.filter(s => parseFloat(s.ret12M) > 0);
+      let displaySignals = longSignals.length > 0 
+        ? longSignals 
+        : signals; // fallback if none positive
 
-      localStorage.setItem('momentumResults', JSON.stringify(signals));
+      displaySignals.sort((a, b) => b.score - a.score);
+      renderResults(displaySignals.slice(0, 10), longSignals.length === 0);
+
+      localStorage.setItem('momentumResults', JSON.stringify(displaySignals));
       localStorage.setItem('lastScan', Date.now());
 
       btn.disabled = false;
       btn.textContent = 'Scan Again';
+      statusEl.textContent = '';
     }
 
     window.addEventListener('load', () => {
